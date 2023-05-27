@@ -1,0 +1,17 @@
+{
+    "name": "Posts saver",
+    "description": "Base Level Extension",
+    "version": "1.0",
+    "manifest_version": 3,
+    "action": {
+      "default_popup": "index.html"
+    },
+    "content_scripts": [
+      {
+        "js": ["scripts/index.js"],
+        "matches": [
+          "https://twitter.com"
+        ]
+      }
+    ]
+  }
