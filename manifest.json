@@ -10,7 +10,8 @@
       {
         "js": ["scripts/index.js"],
         "matches": [
-          "https://twitter.com"
+          "https://twitter.com/home",
+          "https://www.youtube.com/*"
         ]
       }
     ]
