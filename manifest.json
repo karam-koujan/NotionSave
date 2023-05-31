@@ -8,7 +8,7 @@
     },
     "content_scripts": [
       {
-        "js": ["scripts/index.js"],
+        "js": ["scripts/content.js"],
         "matches": [
           "https://twitter.com/home",
           "https://www.youtube.com/*"

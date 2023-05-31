@@ -30,7 +30,6 @@ function createElement(tag,attributes,children){
 
 function getElementByAttr(attributeFilter, callback) {
     const element = document.querySelector(attributeFilter);
-      
     if (element) {
       callback(element);
     } else {
@@ -40,20 +39,17 @@ function getElementByAttr(attributeFilter, callback) {
     }
   }
 
-  // youtube
-  getElementByAttr("[slot='dropdown-content']",(element)=>{
-
-    const savePost = createElement("span",{style:"color:white;font-size:14px;font-family:Roboto,Arial, sans-serif;"},"Save Video To Notion")
-    const menuItem = createElement(
-        "div",
-        {style : "padding:0px 12px 8px 55px;cursor:pointer;"},savePost)
+// Save to Notion Button  Youtube 
 
 
-      
-    menuItem.style.color = "white"
+const saveSpan = createElement("span",{style:"color:#0f0f0f;font-size:14px;font-family:Roboto,Arial,sans-serif;font-weight:bold;text-transform:capitalize;"},"notion")
+const saveButton = createElement("div",{style:"display:flex;justify-content:center;align-item:center;padding:10px 16px;cursor:pointer; background:white;border-radius:18px;margin-right:.9rem;transition:opacity 0.6 ease-in;",onmouseover:"this.style.opacity=0.9",onmouseout:"this.style.opacity=1"},saveSpan)
+getElementByAttr("#actions",(element)=>{
+  element.insertAdjacentElement("afterbegin",saveButton) 
+})
 
-    element.appendChild(menuItem)
-    console.log("element",element)
-  })
-  
-  // twitter
+const getLink = () => window.location.href
+saveButton.addEventListener("click",()=>{
+     const link = getLink()
+     console.log(link) 
+ })
