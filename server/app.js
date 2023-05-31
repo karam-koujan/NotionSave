@@ -16,38 +16,62 @@ const notion = new Client({
     auth: process.env.NOTION_TOKEN,
 })
 
-const getUsers = async () => {
-    return  await notion.users.list({})
-}
-const createPage = async (link)=>{
-    const {results} = await notion.search({
-        filter: {
-          value: 'page',
-          property: 'object'
-        }
-      });
-      const pagesId = results.map(({id})=>id)
-      if (pagesId){
-         console.log(pagesId)
-          const response = await notion.pages.create({
-            parent: {
-                type:"page_id",
-                page_id : pagesId[0]
-                
+
+
+
+app.post("/api/createDB", async(_,res)=>{
+  const idList =  await getPagesId()
+  const pageId = idList[0] 
+  const notionDbdata = {
+    parent : {
+      type: "page_id",
+      page_id : pageId 
+      },
+      title: [{ type: "text", text: { "content": "Social Media Bookmarks"} }],
+     properties : {
+      Title  : {title:{}},
+      "Social Media" : {
+        select : {
+          options : [
+            {
+              name : "youtube",
+              color : "red"
             },
-            properties: {
-                
-                    
-                      "title": [{ "type": "text", "text": { "content": link} }]
-                    }
-                  
-            
-          })
-      }
+            {
+              name : "twitter",
+              color : "blue"
+            },
+            {
+              name : "linkedIn",
+              color : "green"
+            }
+          ]
+        }
+      },
+      Link  : {url:{}} 
+     
+     }
+
+  }
+const url = 'https://api.notion.com/v1/databases';
+const options = {
+  method: 'POST',
+  headers: {
+    accept: 'application/json',
+    'Notion-Version': '2022-06-28',
+    'content-type': 'application/json',
+    "Authorization": 'Bearer '+ process.env.NOTION_TOKEN,
+  },
+  body :JSON.stringify(notionDbdata)
 }
+ const response= await fetch(url,options)
+ const resJson = await res.json()
+ res.status(201).json({ message: 'Db is created' });
+  
 
-
-
+})
+    
+  
 
 app.post('/api/link', (req, res) => {
   const { link,type } = req.body;
@@ -64,3 +88,18 @@ app.post('/api/link', (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+
+function getPagesId(){
+  
+  return new Promise((resolve,reject)=>{
+    notion.search({
+      filter: {
+        value: 'page',
+        property: 'object'
+      }
+    }).then(({results})=>resolve(results.map(result=>result.id))).catch(err=>reject(err))
+  })
+
+}
+
