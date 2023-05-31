@@ -73,16 +73,48 @@ const options = {
     
   
 
-app.post('/api/link', (req, res) => {
+app.post('/api/link', async (req, res) => {
   const { link,type } = req.body;
   console.log(link)
-  youtube.metadata(link).then((json) =>{
-    console.log(json);
-  }, (err)=>{
-    console.log(err);
-  });
+  try{
+ const youtubeMetadata = await  youtube.metadata(link)
+ const dbId = await getDatabasesId()
+ console.log(dbId)
+ const url = 'https://api.notion.com/v1/pages';
+ const notionPagedata = {
+  parent : {
+    type :"database_id",
+    database_id :dbId[dbId.length-1]
+  },
+  properties : {
+    Title :  {type:"title",title:[{type:"text",text:{content:youtubeMetadata.title}}]},
+    "Social Media":  {
+      select: {
+        "name": "youtube"
+      }
+    },
+    Link : {url:link}
+  },
+ }
+ console.log(notionPagedata)
+ const options = {
+  method: 'POST',
+  headers: {
+    accept: 'application/json',
+    'Notion-Version': '2022-06-28',
+    'content-type': 'application/json',
+    "Authorization": 'Bearer '+ process.env.NOTION_TOKEN,
+  },
+  body :JSON.stringify(notionPagedata)
+}
 
-  res.status(201).json({ message: 'Link is sent ' });
+ const response= await fetch(url,options)
+ const resJson = await response.json()
+ console.log(resJson)
+}catch(err){
+  console.log(err)
+}
+ res.status(201).json({ message: 'page is created' });
 });
 
 app.listen(port, () => {
@@ -96,6 +128,19 @@ function getPagesId(){
     notion.search({
       filter: {
         value: 'page',
+        property: 'object'
+      }
+    }).then(({results})=>resolve(results.map(result=>result.id))).catch(err=>reject(err))
+  })
+
+}
+function getDatabasesId(){
+    
+  return new Promise((resolve,reject)=>{
+    notion.search({
+      query :"Social Media Bookmarks",
+      filter: {
+        value: 'database',
         property: 'object'
       }
     }).then(({results})=>resolve(results.map(result=>result.id))).catch(err=>reject(err))
