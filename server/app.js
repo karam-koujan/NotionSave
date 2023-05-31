@@ -8,7 +8,7 @@ const youtube = require('youtube-metadata-from-url');
 const port = 3000;
 app.use(bodyParser.json());
 app.use(cors({
-  origin:"https://www.youtube.com"
+  origin:"*"
 }))
 // Initializing a client
 
@@ -20,7 +20,8 @@ const notion = new Client({
 
 
 
-app.post("/api/createDB", async(_,res)=>{
+app.post("/api/createDB", async(req,res)=>{
+  try{
   const idList =  await getPagesId()
   const pageId = idList[0] 
   const notionDbdata = {
@@ -67,7 +68,10 @@ const options = {
 }
  const response= await fetch(url,options)
  const resJson = await res.json()
- res.status(201).json({ message: 'Db is created' });
+ console.log(resJson)
+}catch(err){
+  console.log(err)
+}
   
 
 })
@@ -115,10 +119,10 @@ app.post('/api/bookmark', async (req, res) => {
  const response= await fetch(url,options)
  const resJson = await response.json()
  console.log(resJson)
+ res.status(201).json({ message: 'page is created' });
 }catch(err){
   console.log(err)
 }
- res.status(201).json({ message: 'page is created' });
 });
 
 app.listen(port, () => {
