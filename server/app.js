@@ -1,6 +1,14 @@
 const { Client } = require("@notionhq/client")
 require('dotenv').config();
-
+const express = require('express');
+const bodyParser = require("body-parser")
+const cors = require("cors")
+const app = express();
+const port = 3000;
+app.use(bodyParser.json());
+app.use(cors({
+  origin:"https://www.youtube.com"
+}))
 // Initializing a client
 console.log(process.env.NOTION_TOKEN)
 const notion = new Client({
@@ -10,7 +18,7 @@ const notion = new Client({
 const getUsers = async () => {
     return  await notion.users.list({})
 }
-const createPage = async ()=>{
+const createPage = async (link)=>{
     const {results} = await notion.search({
         filter: {
           value: 'page',
@@ -29,11 +37,25 @@ const createPage = async ()=>{
             properties: {
                 
                     
-                      "title": [{ "type": "text", "text": { "content": "A note from your pals at Notion" } }]
+                      "title": [{ "type": "text", "text": { "content": link} }]
                     }
                   
             
           })
       }
 }
-createPage()
+
+
+
+
+app.post('/api/link', (req, res) => {
+  const { link,type } = req.body;
+  console.log(req.body)
+   createPage(link)
+
+  res.status(201).json({ message: 'Link is sent ' });
+});
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});

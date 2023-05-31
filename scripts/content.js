@@ -1,3 +1,4 @@
+
 // Accessing the element's properties or modifying its contents
 function createElement(tag,attributes,children){
   const parent = document.createElement(tag)
@@ -51,5 +52,13 @@ getElementByAttr("#actions",(element)=>{
 const getLink = () => window.location.href
 saveButton.addEventListener("click",()=>{
      const link = getLink()
-     console.log(link) 
+     console.log(link)
+     const data = {link,type:"youtube"}
+     fetch("http://localhost:3000/api/link",{
+      method:"POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body :  JSON.stringify(data)
+     }).then(data=>data.json()).then(()=>console.log("work")).catch(err=>console.log(err))
  })
