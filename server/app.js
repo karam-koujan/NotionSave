@@ -95,6 +95,10 @@ app.post('/api/link', async (req, res) => {
     },
     Link : {url:link}
   },
+  children : [{
+    type :"embed",
+    embed : {url : link}
+  }]
  }
  console.log(notionPagedata)
  const options = {
