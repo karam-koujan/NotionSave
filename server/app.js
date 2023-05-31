@@ -11,7 +11,8 @@ app.use(cors({
   origin:"https://www.youtube.com"
 }))
 // Initializing a client
-console.log(process.env.NOTION_TOKEN)
+
+
 const notion = new Client({
     auth: process.env.NOTION_TOKEN,
 })
@@ -73,13 +74,12 @@ const options = {
     
   
 
-app.post('/api/link', async (req, res) => {
+app.post('/api/bookmark', async (req, res) => {
   const { link,type } = req.body;
   console.log(link)
   try{
  const youtubeMetadata = await  youtube.metadata(link)
- const dbId = await getDatabasesId()
- console.log(dbId)
+ const dbId = await getDatabasesId("Social Media Bookmarks")
  const url = 'https://api.notion.com/v1/pages';
  const notionPagedata = {
   parent : {
@@ -100,7 +100,7 @@ app.post('/api/link', async (req, res) => {
     embed : {url : link}
   }]
  }
- console.log(notionPagedata)
+ 
  const options = {
   method: 'POST',
   headers: {
@@ -138,11 +138,11 @@ function getPagesId(){
   })
 
 }
-function getDatabasesId(){
+function getDatabasesId(query){
     
   return new Promise((resolve,reject)=>{
     notion.search({
-      query :"Social Media Bookmarks",
+      query,
       filter: {
         value: 'database',
         property: 'object'
