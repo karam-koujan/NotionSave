@@ -17,7 +17,7 @@ const Schema = mongoose.Schema({
   bot_id:"string",
   token : "string",
   name:"string",
-  avatar_ur:"string",
+  avatar_url:"string",
   isDbCreated:{type:"boolean",default:false}
 })
 const user = mongoose.model("User",Schema)
