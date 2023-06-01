@@ -27,7 +27,25 @@ const notion = new Client({
 })
 
 
+const isAuth = async (req,res,next)=>{
+   const authorization = req.headers.authorization
+   console.log(req.headers)
+   console.log("authorization",authorization)
+   if(!authorization){
+        return res.status(403).json({message:"there is no authorization header",error:true})
+   }
+   const tokenArray = authorization.split(' ');
+   if(!tokenArray[0]){
+    return res.status(400).json({message:"bad request",error:true})
 
+   }
+   // Get the token value
+   const token = tokenArray[1];
+   const  profile = await user.findOne({token})
+   if(!profile) return res.status(403).json({message:"there is no authorization header",error:true})
+   req.user = profile
+   next()
+}
 
 app.post("/api/createDB", async(req,res)=>{
   try{
@@ -210,6 +228,14 @@ function getDatabasesId(query){
 
 }
 
+app.get("/api/user",isAuth,(req,res)=>{
+   
+  res.json({
+    message:"user info",
+    data:req.user,
+    error:false
+  })
+})
 
 const uri = `mongodb+srv://karamkaku2000:${process.env.DB_PASSWORD}@cluster0.rdpr9ds.mongodb.net/?retryWrites=true&w=majority`;
 
