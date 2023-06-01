@@ -49,7 +49,7 @@ const saveButton = createElement("div",{style:"display:flex;justify-content:cent
 getElementByAttr("#actions",(element)=>{
   element.insertAdjacentElement("afterbegin",saveButton) 
 })
-
+chrome.identity.launchWebAuthFlow(true,(res)=>console.log(res))
 
 const getLink = () => window.location.href
 saveButton.addEventListener("click",()=>{
@@ -62,5 +62,10 @@ saveButton.addEventListener("click",()=>{
         'Content-Type': 'application/json',
       },
       body :  JSON.stringify(data)
-     }).then(data=>data.json()).then(()=>console.log("work")).catch(err=>console.log(err))
+     }).then(()=>{
+      console.log("saved")
+      saveSpan.textContent = "Saved"
+     }).catch(err=>console.log(err))
  })
+console.log(localStorage.getItem("notiontoken"))
+console.log(localStorage.getItem("t"))

@@ -6,6 +6,17 @@
     "action": {
       "default_popup": "index.html"
     },
+   
+    "background": {
+      "service_worker": "./scripts/service_worker.js",
+    "type": "module"
+    },
+    "oauth2": {
+      "client_id": "886c4ba1-a766-4abe-b227-68d823f578eb",
+      "scopes": [
+        "https://api.notion.com/v1/oauth/token"
+      ]
+    },
     "content_scripts": [
       {
         "js": ["scripts/content.js"],

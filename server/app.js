@@ -6,12 +6,21 @@ const cors = require("cors")
 const app = express();
 const youtube = require('youtube-metadata-from-url');
 const port = 3000;
+const mongoose = require("mongoose")
 app.use(bodyParser.json());
 app.use(cors({
   origin:"*"
 }))
 // Initializing a client
 
+const Schema = mongoose.Schema({
+  bot_id:"string",
+  token : "string",
+  name:"string",
+  avatar_ur:"string",
+  isDbCreated:{type:"boolean",default:false}
+})
+const user = mongoose.model("User",Schema)
 
 const notion = new Client({
     auth: process.env.NOTION_TOKEN,
@@ -119,12 +128,57 @@ app.post('/api/bookmark', async (req, res) => {
  const response= await fetch(url,options)
  const resJson = await response.json()
  console.log(resJson)
- res.status(201).json({ message: 'page is created' });
+ return res.status(201).json({ message: 'page is created' });
 }catch(err){
   console.log(err)
 }
 });
 
+
+app.get("/api/auth",async(req,res)=>{
+  const {code,error} = req.query 
+  console.log("code",req.query)
+  console.log(error)
+  if(error!=="null"){
+    return res.json({message:"request cancelled",error:true})
+  }
+
+
+  const clientId = process.env.CLIENT_ID;
+  const clientSecret = process.env.CLIENT_SECRET;
+  const redirectUri = process.env.REDIRECT_URI;
+  
+  // encode in base 64
+  const encoded = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
+  try{
+  const response = await fetch("https://api.notion.com/v1/oauth/token", {
+      method: "POST",
+      headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Basic ${encoded}`,
+  },
+      body: JSON.stringify({
+          grant_type: "authorization_code",
+          code: code,
+          redirect_uri: redirectUri,
+      }),
+  });
+  
+  const data = await response.json()
+  console.log("data",data)
+  if(data.error){
+   return res.json({message:data.error,error:true})
+  }
+  console.log(data.owner.user.name,)
+  const token = new user({bot_id:data.bot_id,token:data.access_token,name:data.owner.user.name,avatar_url:data.owner.user.avatar_url})
+  await token.save() 
+  res.json({message:"sucess",data,error:false})
+}catch(err){
+  console.log(err)
+}
+
+})
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
@@ -156,3 +210,7 @@ function getDatabasesId(query){
 
 }
 
+
+const uri = `mongodb+srv://karamkaku2000:${process.env.DB_PASSWORD}@cluster0.rdpr9ds.mongodb.net/?retryWrites=true&w=majority`;
+
+mongoose.connect(uri).then(()=>console.log("working")).catch(console.log)
