@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 method:"POST",
                 "Content-Type":"application/json",
             }).then(()=>{
-                btn.textContent = "DataBase is created!!"
+                btn.textContent = "Database is created!!"
                 localStorage.setItem("isDbCreated",true)
             
             })
