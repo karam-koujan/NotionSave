@@ -189,8 +189,7 @@ app.get("/api/auth",async(req,res)=>{
    return res.json({message:data.error,error:true})
   }
   console.log(data.owner.user.name,)
-  const token = new user({bot_id:data.bot_id,token:data.access_token,name:data.owner.user.name,avatar_url:data.owner.user.avatar_url})
-  await token.save() 
+  
   res.json({message:"sucess",data,error:false})
 }catch(err){
   console.log(err)
@@ -228,7 +227,6 @@ function getDatabasesId(query){
 
 }
 
-app.get()
 app.get("/api/user",isAuth,(req,res)=>{
    
   res.json({

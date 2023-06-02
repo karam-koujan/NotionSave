@@ -1,3 +1,32 @@
+function createElement(tag,attributes,children){
+  const parent = document.createElement(tag)
+  
+  // set parent's attributes
+  if(attributes!==null){
+      for(let keys in attributes){
+         parent.setAttribute(keys,attributes[keys])
+      }
+  }
+  
+  
+  if(children === undefined) return ;
+  
+  if (Array.isArray(children)){
+     children.forEach(child=>{
+         parent.appendChild(child)
+     })
+  }else if (typeof children === "string"){
+      parent.textContent = children
+  }else{
+      parent.appendChild(children)
+  }
+
+
+         
+  
+  return parent 
+}
+
 function getCodeAndErrorFromRedirectUri(redirectUri) {
     const url = new URL(redirectUri);
     const code = url.searchParams.get('code');
@@ -9,12 +38,10 @@ function getCodeAndErrorFromRedirectUri(redirectUri) {
     };
   }
   
-window.onload = ()=>{
-    let redirectUri = chrome.identity.getRedirectURL()
-    var authUrl = "https://api.notion.com/v1/oauth/authorize?client_id=886c4ba1-a766-4abe-b227-68d823f578eb&response_type=code&owner=user&redirect_uri=https%3A%2F%2Flgfogmkjmheekcelnijmlmbojdbaoabh.chromiumapp.org%2F";
-    const isLogged = localStorage.getItem("token")
-    console.log(isLogged===null, isLogged.code === "null" ,isLogged.error)
-    if(isLogged===null || isLogged.code === "null" || isLogged.error!==undefined){
+const auth = ()=>{
+  const loginBtn = document.getElementById("login")
+  loginBtn.textContent = "Connecting..."
+  var authUrl = "https://api.notion.com/v1/oauth/authorize?client_id=886c4ba1-a766-4abe-b227-68d823f578eb&response_type=code&owner=user&redirect_uri=https%3A%2F%2Flgfogmkjmheekcelnijmlmbojdbaoabh.chromiumapp.org%2F";
         chrome.identity.launchWebAuthFlow({
             url: authUrl,
             interactive: true,
@@ -27,8 +54,20 @@ window.onload = ()=>{
               return;
             }
           console.log(redirectUrl)
-            const token = getCodeAndErrorFromRedirectUri(redirectUrl)
-            localStorage.setItem("token",JSON.stringify(token))
+            const redirectUrlQuery = getCodeAndErrorFromRedirectUri(redirectUrl)
+            console.log("dd")
+            if(redirectUrlQuery.code){
+              fetch(`http://localhost:3000/api/auth?code=${redirectUrlQuery.code}&error=${redirectUrlQuery.error}`).
+              then(res=>res.json())
+              .then(data=>{
+                console.log(data.data)
+                localStorage.setItem("user",JSON.stringify(data.data))
+                
+                if(data.error){
+                return  console.log("error")        
+                }})
+              }
+            localStorage.setItem("redirectUrlCode",JSON.stringify(redirectUrlQuery))
           console.log("token letsift")
 
           // Extract the necessary information from the redirectUrl
@@ -38,35 +77,31 @@ window.onload = ()=>{
         
         
         
-    }
     
+    const user = JSON.parse(localStorage.getItem("user"))
     setTimeout(()=>{chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, { accessToken: isLogged });
+      chrome.tabs.sendMessage(tabs[0].id, { accessToken: user.access_token });
     })},500)
     
     
 }
 document.addEventListener('DOMContentLoaded', function () {
     // Open a connection to the IndexedDB database
-    
- console.log(window.location.href)
+  const loginBtn = document.getElementById("login")
+  const isLogged = JSON.parse(localStorage.getItem("redirectUrlCode"))
+  loginBtn.addEventListener("click",auth)
+  console.log("isLogged",isLogged)
+  if(  isLogged!==null){
+    loginBtn.parentElement.removeChild(loginBtn)
+  }
  // Retrieve the access token from localStorage
 var accessToken = localStorage.getItem('isDbCreated');
- localStorage.setItem("s","b")
  
- const v = localStorage.getItem("s") 
  // Send a message to the content script
 
 
     const btn = document.getElementById('checkButton');
-    const link = document.getElementById("link");
     
-
-   
-    link.addEventListener("click",()=>{
-        chrome.tabs.create({active: true, url: link.href});
-
-    })
     btn.addEventListener('click', function() {
             fetch("http://localhost:3000/api/createDB",{
                 method:"POST",
@@ -78,4 +113,12 @@ var accessToken = localStorage.getItem('isDbCreated');
             })
         
     });
-});
+   const user = JSON.parse(localStorage.getItem("user"))
+   console.log(user)
+   const nameTag = createElement("p",{style:"color:#37352f;font-size:17px;text-align:center;font-weight:bold;margin-top:.5rem;"},user.owner.user.name) 
+   const profileImg =  createElement("img",{style:"object-fit:cover;border-radius:50%;width:100%;display:block;",src:user.owner.user.avatar_url,alt:user.owner.user.name},"")
+   const imgContainer = createElement("div",{style:"border-radius:50%; margin-inline:auto; width:100px; margin-top:1rem;"},profileImg)
+   const parent = document.getElementById("parent")
+   parent.appendChild(imgContainer)
+   parent.appendChild(nameTag)
+  });
