@@ -49,7 +49,6 @@ const saveButton = createElement("div",{style:"display:flex;justify-content:cent
 getElementByAttr("#actions",(element)=>{
   element.insertAdjacentElement("afterbegin",saveButton) 
 })
-chrome.identity.launchWebAuthFlow(true,(res)=>console.log(res))
 
 const getLink = () => window.location.href
 saveButton.addEventListener("click",()=>{
@@ -67,5 +66,14 @@ saveButton.addEventListener("click",()=>{
       saveSpan.textContent = "Saved"
      }).catch(err=>console.log(err))
  })
-console.log(localStorage.getItem("notiontoken"))
-console.log(localStorage.getItem("t"))
+
+// Access the access token from the background script
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+  if (message.accessToken) {
+    var accessToken = message.accessToken;
+    localStorage.setItem("token",accessToken)
+    // Now you can use the accessToken variable in your content script
+    console.log("f",accessToken);
+  }
+});
+

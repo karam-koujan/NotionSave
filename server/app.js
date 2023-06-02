@@ -228,6 +228,7 @@ function getDatabasesId(query){
 
 }
 
+app.get()
 app.get("/api/user",isAuth,(req,res)=>{
    
   res.json({

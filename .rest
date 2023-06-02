@@ -1,8 +1,4 @@
 
-POST http://localhost:3000/api/link 
+GET  http://localhost:3000/api/user
 Content-Type: application/json 
-
-{
-    "link" : "s",
-    "type" : "d"
-}
+Authorization: Bearer secret_2FRtaMW38Bpo6z7T8qmXNdWfVoNqhc1KJd5yBGlhoNp

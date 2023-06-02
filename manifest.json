@@ -6,7 +6,6 @@
     "action": {
       "default_popup": "index.html"
     },
-   
     "background": {
       "service_worker": "./scripts/service_worker.js",
     "type": "module"
@@ -17,6 +16,10 @@
         "https://api.notion.com/v1/oauth/token"
       ]
     },
+    "permissions":[
+      "identity",
+      "tabs"
+    ],
     "content_scripts": [
       {
         "js": ["scripts/content.js"],
