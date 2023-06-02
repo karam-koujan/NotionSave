@@ -24,7 +24,7 @@
       {
         "js": ["scripts/content.js"],
         "matches": [
-          "https://twitter.com/home",
+          "https://twitter.com/*",
           "https://www.youtube.com/*"
         ]
       }

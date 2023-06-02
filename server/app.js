@@ -23,7 +23,7 @@ const Schema = mongoose.Schema({
 const user = mongoose.model("User",Schema)
 
 const notion = new Client({
-    auth: process.env.NOTION_TOKEN,
+    auth: "secret_2FRtaMW38Bpo6z7T8qmXNdWfVoNqhc1KJd5yBGlhoNp"
 })
 
 
@@ -49,7 +49,9 @@ const isAuth = async (req,res,next)=>{
 
 app.post("/api/createDB", async(req,res)=>{
   try{
-  const idList =  await getPagesId()
+  
+    
+  const idList =  await getPagesId(req.headers.authorization)
   const pageId = idList[0] 
   const notionDbdata = {
     parent : {
@@ -89,7 +91,7 @@ const options = {
     accept: 'application/json',
     'Notion-Version': '2022-06-28',
     'content-type': 'application/json',
-    "Authorization": 'Bearer '+ process.env.NOTION_TOKEN,
+    "authorization": `Bearer ${req.headers.authorization}`,
   },
   body :JSON.stringify(notionDbdata)
 }
@@ -107,10 +109,10 @@ const options = {
 
 app.post('/api/bookmark', async (req, res) => {
   const { link,type } = req.body;
-  console.log(link)
+  console.log("aut",req.headers.authorization)
   try{
  const youtubeMetadata = await  youtube.metadata(link)
- const dbId = await getDatabasesId("Social Media Bookmarks")
+ const dbId = await getDatabasesId("Social Media Bookmarks",req.headers.authorization)
  const url = 'https://api.notion.com/v1/pages';
  const notionPagedata = {
   parent : {
@@ -138,7 +140,7 @@ app.post('/api/bookmark', async (req, res) => {
     accept: 'application/json',
     'Notion-Version': '2022-06-28',
     'content-type': 'application/json',
-    "Authorization": 'Bearer '+ process.env.NOTION_TOKEN,
+    "authorization": `Bearer ${req.headers.authorization}`,
   },
   body :JSON.stringify(notionPagedata)
 }
@@ -201,8 +203,10 @@ app.listen(port, () => {
 });
 
 
-function getPagesId(){
-  
+function getPagesId(token){
+  const notion = new Client({
+    auth: token
+})
   return new Promise((resolve,reject)=>{
     notion.search({
       filter: {
@@ -213,8 +217,11 @@ function getPagesId(){
   })
 
 }
-function getDatabasesId(query){
-    
+function getDatabasesId(query,token){
+  console.log(token)
+  const notion = new Client({
+    auth: token
+})
   return new Promise((resolve,reject)=>{
     notion.search({
       query,
@@ -238,4 +245,4 @@ app.get("/api/user",isAuth,(req,res)=>{
 
 const uri = `mongodb+srv://karamkaku2000:${process.env.DB_PASSWORD}@cluster0.rdpr9ds.mongodb.net/?retryWrites=true&w=majority`;
 
-mongoose.connect(uri).then(()=>console.log("working")).catch(console.log)
+//mongoose.connect(uri).then(()=>console.log("working")).catch(console.log)

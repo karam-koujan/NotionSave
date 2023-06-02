@@ -2,3 +2,5 @@
 GET  http://localhost:3000/api/user
 Content-Type: application/json 
 Authorization: Bearer secret_2FRtaMW38Bpo6z7T8qmXNdWfVoNqhc1KJd5yBGlhoNp
+
+###
