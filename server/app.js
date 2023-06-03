@@ -47,6 +47,16 @@ const isAuth = async (req,res,next)=>{
    next()
 }
 
+app.get("/api/dbId",async (req,res)=>{
+  const token = req.headers.authorization; 
+  console.log(token)
+  try{
+    const dbId = await getDatabasesId("Social Media Bookmarks",token)
+    res.json({dbId,error:false})
+  }catch{
+      res.json({error:true})
+  }
+})  
 app.post("/api/createDB", async(req,res)=>{
   try{
   

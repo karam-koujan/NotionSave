@@ -46,6 +46,7 @@ function getElementByAttr(attributeFilter, callback) {
 const saveSpan = createElement("span",{style:"color:#0f0f0f;font-size:14px;font-family:Roboto,Arial,sans-serif;font-weight:bold;text-transform:capitalize;"},"notion")
 const saveButton = createElement("div",{style:"display:flex;justify-content:center;align-item:center;padding:10px 16px;cursor:pointer; background:white;border-radius:18px;margin-right:.9rem;transition:opacity 0.6 ease-in;",onmouseover:"this.style.opacity=0.9",onmouseout:"this.style.opacity=1"},saveSpan)
 
+
 getElementByAttr("#actions",(element)=>{
   element.insertAdjacentElement("afterbegin",saveButton) 
 })
@@ -86,19 +87,25 @@ getElementByAttr("[data-testid='caret']",(element)=>{
 const saveText = createElement("p",{style:"color:#e7e9ea;font-family:TwitterChirp;font-size:15px;font-weight:bold;padding:15px 0 12px 3rem;margin:0;"},"Save to Notion")
 const wrapper = createElement("div",{id:"notion",style:"cursor:pointer"},saveText)
 let tweetText = ""
-getElementByAttr("[data-testid='caret']",(element)=>{
- element.addEventListener("click",()=>{
-  getElementByAttr("[data-testid='Dropdown']",(element)=>{
-    console.log(element,"eleme")
-    element.insertAdjacentElement("afterbegin",wrapper) })
- })
-})
+setInterval(()=>{
+  getElementByAttr("[data-testid='caret']",(element)=>{
+   element.addEventListener("click",()=>{
+    saveText.textContent = "Save to Notion"
 
-getElementByAttr("[data-testid='tweetText']",(element)=>{
-   tweetText = element.firstChild.textContent
-  
-})
+    getElementByAttr("[data-testid='Dropdown']",(element)=>{
+      console.log(element,"eleme")
+      element.insertAdjacentElement("afterbegin",wrapper) })
+   })
+  })
+
+},500)
+
+
 wrapper.addEventListener("click",()=>{
+  getElementByAttr("[data-testid='tweetText']",(element)=>{
+     tweetText = element.firstChild.textContent
+    
+  })
   const link = getLink()
   console.log(link)
   saveText.textContent = "Saving..."
@@ -123,10 +130,17 @@ wrapper.addEventListener("click",()=>{
 function getLink(){ 
   return window.location.href
 }
+
+setInterval(()=>{
+  if(saveButton.textContent ==="Saved"){
+
+    saveSpan.textContent = "Notion"
+  }
+},3000)
 saveButton.addEventListener("click",()=>{
      const link = getLink()
      console.log(link)
-     saveButton.textContent = "Saving..."
+     saveSpan.textContent = "Saving..."
      const token = localStorage.getItem("token")
      console.log("ss",token)
      const data = {link,type:"youtube"}
@@ -140,6 +154,7 @@ saveButton.addEventListener("click",()=>{
      }).then(()=>{
       console.log("saved")
       saveSpan.textContent = "Saved"
+      
      }).catch(err=>{
       saveButton.textContent = "Error"
      })

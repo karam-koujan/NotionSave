@@ -85,8 +85,24 @@ const auth = ()=>{
     
     
 }
-window.onload = ()=>{
+window.onload = ()=>{    
+  const btn = document.getElementById('checkButton');
   const user = JSON.parse(localStorage.getItem("user"))
+  console.log(user)
+  fetch("http://localhost:3000/api/dbId",{
+      method:"GET",
+      headers :{
+        'Content-Type':"application/json",
+        'Authorization': user.access_token
+      }    
+  }).then((res)=>res.json()).then(({error})=>{
+    console.log(error)
+       if(error){
+        btn.textContent = "database is created"
+       }else{
+        btn.textContent = "Create Notion Database"
+       }
+  }) 
   if(user){
     setTimeout(()=>{chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
       chrome.tabs.sendMessage(tabs[0].id, { accessToken: user.access_token });
