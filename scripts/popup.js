@@ -95,12 +95,14 @@ window.onload = ()=>{
         'Content-Type':"application/json",
         'Authorization': user.access_token
       }    
-  }).then((res)=>res.json()).then(({error})=>{
-    console.log(error)
-       if(error){
-        btn.textContent = "database is created"
-       }else{
-        btn.textContent = "Create Notion Database"
+  }).then((res)=>res.json()).then((res)=>{
+    console.log(res.dbId.length)
+       if(res.error || res.dbId.length===0){
+         btn.textContent = "Create Notion Database"
+        }else{
+         btn.textContent = "database is created"
+         btn.style.opacity ="0.8"
+         btn.disabled = true 
        }
   }) 
   if(user){
@@ -129,6 +131,7 @@ var accessToken = localStorage.getItem('isDbCreated');
     const user = JSON.parse(localStorage.getItem("user"))
     
     btn.addEventListener('click', function() {
+      btn.textContent = "Creating..."
             fetch("http://localhost:3000/api/createDB",{
                 method:"POST",
                 headers :{
