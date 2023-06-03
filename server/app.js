@@ -136,27 +136,29 @@ app.post('/api/bookmark', async (req, res) => {
      embed : {url : link}
    }]
   }
+   }else{
+     notionPagedata =  {
+     parent : {
+       type :"database_id",
+       database_id :dbId[dbId.length-1]
+     },
+     properties : {
+       Title :  {type:"title",title:[{type:"text",text:{content:req.body.metaData.title}}]},
+       "Social Media":  {
+         select: {
+           "name": "twitter"
+         }
+       },
+       Link : {url:link}
+     },
+     children : [{
+       type :"embed",
+       embed : {url : link}
+     }]
+    }
+
    }
  
-    notionPagedata =  {
-    parent : {
-      type :"database_id",
-      database_id :dbId[dbId.length-1]
-    },
-    properties : {
-      Title :  {type:"title",title:[{type:"text",text:{content:req.body.metaData.title}}]},
-      "Social Media":  {
-        select: {
-          "name": "twitter"
-        }
-      },
-      Link : {url:link}
-    },
-    children : [{
-      type :"embed",
-      embed : {url : link}
-    }]
-   }
 
  const options = {
   method: 'POST',

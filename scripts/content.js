@@ -101,6 +101,7 @@ getElementByAttr("[data-testid='tweetText']",(element)=>{
 wrapper.addEventListener("click",()=>{
   const link = getLink()
   console.log(link)
+  saveText.textContent = "Saving..."
   const token = localStorage.getItem("token")
   console.log("ss",token)
   const data = {link,type:"twitter",metaData:{title:tweetText.slice(0,10)}}
@@ -114,7 +115,9 @@ wrapper.addEventListener("click",()=>{
   }).then(()=>{
    console.log("saved")
    saveText.textContent = "Saved"
-  }).catch(err=>console.log(err))
+  }).catch(err=>{
+    saveText.textContent = "error"
+  })
 })
 
 function getLink(){ 
@@ -123,6 +126,7 @@ function getLink(){
 saveButton.addEventListener("click",()=>{
      const link = getLink()
      console.log(link)
+     saveButton.textContent = "Saving..."
      const token = localStorage.getItem("token")
      console.log("ss",token)
      const data = {link,type:"youtube"}
@@ -136,7 +140,9 @@ saveButton.addEventListener("click",()=>{
      }).then(()=>{
       console.log("saved")
       saveSpan.textContent = "Saved"
-     }).catch(err=>console.log(err))
+     }).catch(err=>{
+      saveButton.textContent = "Error"
+     })
  })
 
 // Access the access token from the background script
