@@ -111,29 +111,53 @@ app.post('/api/bookmark', async (req, res) => {
   const { link,type } = req.body;
   console.log("aut",req.headers.authorization)
   try{
- const youtubeMetadata = await  youtube.metadata(link)
- const dbId = await getDatabasesId("Social Media Bookmarks",req.headers.authorization)
- const url = 'https://api.notion.com/v1/pages';
- const notionPagedata = {
-  parent : {
-    type :"database_id",
-    database_id :dbId[dbId.length-1]
-  },
-  properties : {
-    Title :  {type:"title",title:[{type:"text",text:{content:youtubeMetadata.title}}]},
-    "Social Media":  {
-      select: {
-        "name": "youtube"
-      }
-    },
-    Link : {url:link}
-  },
-  children : [{
-    type :"embed",
-    embed : {url : link}
-  }]
- }
+    const dbId = await getDatabasesId("Social Media Bookmarks",req.headers.authorization)
+    const url = 'https://api.notion.com/v1/pages';
+   let notionPagedata
+    if(type==="youtube"){
+
+     const youtubeMetadata = await  youtube.metadata(link)
+   notionPagedata = {
+   parent : {
+     type :"database_id",
+     database_id :dbId[dbId.length-1]
+   },
+   properties : {
+     Title :  {type:"title",title:[{type:"text",text:{content:youtubeMetadata.title}}]},
+     "Social Media":  {
+       select: {
+         "name": "youtube"
+       }
+     },
+     Link : {url:link}
+   },
+   children : [{
+     type :"embed",
+     embed : {url : link}
+   }]
+  }
+   }
  
+    notionPagedata =  {
+    parent : {
+      type :"database_id",
+      database_id :dbId[dbId.length-1]
+    },
+    properties : {
+      Title :  {type:"title",title:[{type:"text",text:{content:req.body.metaData.title}}]},
+      "Social Media":  {
+        select: {
+          "name": "twitter"
+        }
+      },
+      Link : {url:link}
+    },
+    children : [{
+      type :"embed",
+      embed : {url : link}
+    }]
+   }
+
  const options = {
   method: 'POST',
   headers: {

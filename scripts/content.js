@@ -83,17 +83,43 @@ getElementByAttr("[data-testid='caret']",(element)=>{
 
 
 
-
+const saveText = createElement("p",{style:"color:#e7e9ea;font-family:TwitterChirp;font-size:15px;font-weight:bold;padding:15px 0 12px 3rem;margin:0;"},"Save to Notion")
+const wrapper = createElement("div",{id:"notion",style:"cursor:pointer"},saveText)
+let tweetText = ""
 getElementByAttr("[data-testid='caret']",(element)=>{
  element.addEventListener("click",()=>{
   getElementByAttr("[data-testid='Dropdown']",(element)=>{
     console.log(element,"eleme")
-    const saveText = createElement("p",{style:"color:#e7e9ea;font-family:TwitterChirp;font-size:15px;font-weight:bold;padding:15px 0 12px 3rem;margin:0;"},"Save to Notion")
-    const wrapper = createElement("div",{id:"notion",style:"cursor:pointer"},saveText)
     element.insertAdjacentElement("afterbegin",wrapper) })
  })
 })
-const getLink = () => window.location.href
+
+getElementByAttr("[data-testid='tweetText']",(element)=>{
+   tweetText = element.firstChild.textContent
+  
+})
+wrapper.addEventListener("click",()=>{
+  const link = getLink()
+  console.log(link)
+  const token = localStorage.getItem("token")
+  console.log("ss",token)
+  const data = {link,type:"twitter",metaData:{title:tweetText.slice(0,10)}}
+  fetch("http://localhost:3000/api/bookmark",{
+   method:"POST",
+   headers: {
+     'Content-Type': 'application/json',
+     'Authorization': token
+   },
+   body :  JSON.stringify(data)
+  }).then(()=>{
+   console.log("saved")
+   saveText.textContent = "Saved"
+  }).catch(err=>console.log(err))
+})
+
+function getLink(){ 
+  return window.location.href
+}
 saveButton.addEventListener("click",()=>{
      const link = getLink()
      console.log(link)
