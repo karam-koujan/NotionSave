@@ -91,8 +91,10 @@ console.log(navigation)
 navigation.addEventListener('navigate', navigateEvent => {
     
   if(!navigateEvent.hashChange){
-       setInterval(()=>{
-        getElementByAttr("[data-testid='caret']",(element)=>{
+    setInterval(()=>{
+    getElementByAttr("[data-testid='caret']",(element)=>{
+       
+          console.log("work")
           element.addEventListener("click",()=>{ 
             saveText.textContent = "Save to Notion"
               
@@ -100,8 +102,8 @@ navigation.addEventListener('navigate', navigateEvent => {
               console.log(element,"eleme")
               element.insertAdjacentElement("afterbegin",wrapper) })
            })
+          },500)
         })
-       },500)
     }
 })
 
@@ -146,20 +148,29 @@ wrapper.addEventListener("click",()=>{
 function getLink(){ 
   return window.location.href
 }
+navigation.addEventListener("navigate",(navigateEvent)=>{
+    if(!navigateEvent.hashChange){
+      saveSpan.textContent = "Notion"
+    }
+})
+let youtubeVidTitle;
+getElementByAttr("#above-the-fold",(element)=>{
+  console.log(element,element.firstElementChild)
+  const parent = element.firstElementChild
+  for (const child of parent.children) {
+       if(child.tagName=== "H1"){
 
-setInterval(()=>{
-  if(saveButton.textContent ==="Saved"){
-
-    saveSpan.textContent = "Notion"
+         youtubeVidTitle = child.textContent
+       }
   }
-},3000)
+})
 saveButton.addEventListener("click",()=>{
      const link = getLink()
      console.log(link)
      saveSpan.textContent = "Saving..."
      const token = localStorage.getItem("token")
      console.log("ss",token)
-     const data = {link,type:"youtube"}
+     const data = {link,type:"youtube",metaData:{title:youtubeVidTitle}}
      fetch("http://localhost:3000/api/bookmark",{
       method:"POST",
       headers: {

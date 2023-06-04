@@ -4,7 +4,6 @@ const express = require('express');
 const bodyParser = require("body-parser")
 const cors = require("cors")
 const app = express();
-const youtube = require('youtube-metadata-from-url');
 const port = 3000;
 const mongoose = require("mongoose")
 app.use(bodyParser.json());
@@ -118,7 +117,7 @@ const options = {
   
 
 app.post('/api/bookmark', async (req, res) => {
-  const { link,type } = req.body;
+  const { link,type,metaData } = req.body;
   console.log("aut",req.headers.authorization)
   try{
     const dbId = await getDatabasesId("Social Media Bookmarks",req.headers.authorization)
@@ -126,14 +125,13 @@ app.post('/api/bookmark', async (req, res) => {
    let notionPagedata
     if(type==="youtube"){
 
-     const youtubeMetadata = await  youtube.metadata(link)
    notionPagedata = {
    parent : {
      type :"database_id",
      database_id :dbId[dbId.length-1]
    },
    properties : {
-     Title :  {type:"title",title:[{type:"text",text:{content:youtubeMetadata.title}}]},
+     Title :  {type:"title",title:[{type:"text",text:{content:metaData.title}}]},
      "Social Media":  {
        select: {
          "name": "youtube"
@@ -153,7 +151,7 @@ app.post('/api/bookmark', async (req, res) => {
        database_id :dbId[dbId.length-1]
      },
      properties : {
-       Title :  {type:"title",title:[{type:"text",text:{content:req.body.metaData.title}}]},
+       Title :  {type:"title",title:[{type:"text",text:{content:metaData.title}}]},
        "Social Media":  {
          select: {
            "name": "twitter"
