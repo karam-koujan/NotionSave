@@ -87,18 +87,34 @@ getElementByAttr("[data-testid='caret']",(element)=>{
 const saveText = createElement("p",{style:"color:#e7e9ea;font-family:TwitterChirp;font-size:15px;font-weight:bold;padding:15px 0 12px 3rem;margin:0;"},"Save to Notion")
 const wrapper = createElement("div",{id:"notion",style:"cursor:pointer"},saveText)
 let tweetText = ""
-setInterval(()=>{
-  getElementByAttr("[data-testid='caret']",(element)=>{
-   element.addEventListener("click",()=>{
-    saveText.textContent = "Save to Notion"
+console.log(navigation)
+navigation.addEventListener('navigate', navigateEvent => {
+    
+  if(!navigateEvent.hashChange){
+       setInterval(()=>{
+        getElementByAttr("[data-testid='caret']",(element)=>{
+          element.addEventListener("click",()=>{ 
+            saveText.textContent = "Save to Notion"
+              
+            getElementByAttr("[data-testid='Dropdown']",(element)=>{
+              console.log(element,"eleme")
+              element.insertAdjacentElement("afterbegin",wrapper) })
+           })
+        })
+       },500)
+    }
+})
 
+getElementByAttr("[data-testid='caret']",(element)=>{
+  console.log("work")
+  element.addEventListener("click",()=>{ 
+    saveText.textContent = "Save to Notion"
+      console.log("element")
     getElementByAttr("[data-testid='Dropdown']",(element)=>{
       console.log(element,"eleme")
       element.insertAdjacentElement("afterbegin",wrapper) })
    })
-  })
-
-},500)
+})
 
 
 wrapper.addEventListener("click",()=>{
