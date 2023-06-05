@@ -1,10 +1,13 @@
 # NotionSave
 
-When you activate this extention on your browser, in every post/video a save post button will be shown, once you click it, a notion page will be created that contains every post you have saved classified by social media. This extention will help you save the posts in a neat manner later, without needing to switch from differents tab or forgetting in which social media you have saved ythe post
+## Extension Demo
 
-## Instalation
+![NotionSave Demo](https://www.awesomescreenshot.com/video/17985536?key=a4739003b46ae1e466c73f5c1ba09ada)
+
+## Installation
 
 ```shell
+ git clone https://github.com/karam-koujan/NotionSave.git
  npm install
  npm run build
 ```
