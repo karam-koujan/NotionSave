@@ -2,7 +2,7 @@
 
 ## Extension Demo
 
-![NotionSave Demo](https://www.awesomescreenshot.com/video/17985536?key=a4739003b46ae1e466c73f5c1ba09ada)
+![NotionSave Demo](https://twitter.com/karamkaku/status/16647728229529968)
 
 ## Installation
 
