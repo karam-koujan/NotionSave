@@ -1,32 +1,24 @@
 {
-    "name": "Posts saver",
-    "description": "Base Level Extension",
-    "version": "1.0",
-    "manifest_version": 3,
-    "action": {
-      "default_popup": "index.html"
-    },
-    "background": {
-      "service_worker": "./scripts/service_worker.js",
+  "name": "Notion Bookmarks",
+  "description": "When you activate this extention on your browser, in every post/video a save post button will be shown, once you click it, a notion page will be created that contains every post you have saved classified by social media.  This extention will help you save the posts in a neat manner later, without needing to switch from differents tab or forgetting in which social media you have saved ythe post.",
+  "version": "1.0",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "index.html"
+  },
+  "background": {
+    "service_worker": "./scripts/service_worker.js",
     "type": "module"
-    },
-    "oauth2": {
-      "client_id": "886c4ba1-a766-4abe-b227-68d823f578eb",
-      "scopes": [
-        "https://api.notion.com/v1/oauth/token"
-      ]
-    },
-    "permissions":[
-      "identity",
-      "tabs"
-    ],
-    "content_scripts": [
-      {
-        "js": ["scripts/content.js"],
-        "matches": [
-          "https://twitter.com/*",
-          "https://www.youtube.com/*"
-        ]
-      }
-    ]
-  }
+  },
+  "oauth2": {
+    "client_id": "886c4ba1-a766-4abe-b227-68d823f578eb",
+    "scopes": ["https://api.notion.com/v1/oauth/token"]
+  },
+  "permissions": ["identity", "tabs"],
+  "content_scripts": [
+    {
+      "js": ["scripts/content.js"],
+      "matches": ["https://twitter.com/*", "https://www.youtube.com/*"]
+    }
+  ]
+}
