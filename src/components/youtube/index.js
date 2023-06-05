@@ -14,7 +14,6 @@ function youtubeSave(){
     // get the parent element from youtube's html and adding Notion button.
 
     getElementByAttr("#actions",(element)=>{
-        console.log("hi",youtubeSaveBtn)
         element.insertAdjacentElement("afterbegin",youtubeSaveBtn) 
       })
     
