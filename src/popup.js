@@ -16,7 +16,6 @@ window.onload = () => {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res.dbId.length);
         if (res.error || res.dbId.length === 0) {
           btn.textContent = "Create Notion Database";
         } else {
@@ -51,7 +50,6 @@ document.addEventListener("DOMContentLoaded", () => {
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log("data", data.data);
         fetch("http://localhost:3000/api/dbId", {
           method: "GET",
           headers: {
