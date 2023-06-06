@@ -1,7 +1,7 @@
 import profileImg from "./profileImg";
 import profileName from "./profileName";
 function profile({ owner }) {
-  const parent = document.getElementById("parent");
+  const parent = document.getElementById("profile");
   const imgContainer = profileImg({
     img: owner.user.avatar_url,
     alt: owner.user.name,
