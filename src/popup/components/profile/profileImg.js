@@ -19,8 +19,6 @@ function profileImg(props) {
     img
   );
 
-  return {
-    img: imgContainer,
-  };
+  return imgContainer;
 }
 export default profileImg;

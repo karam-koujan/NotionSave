@@ -10,12 +10,8 @@ function login() {
   const loginWrapper = document.getElementById("connect");
   loginBtn.addEventListener("click", auth);
 
-  return {
-    render: function () {
-      loginWrapper.appendChild(loginBtn);
-    },
-    loginBtn,
-  };
+  loginWrapper.appendChild(loginBtn);
+  return loginBtn;
 }
 
 export default login;

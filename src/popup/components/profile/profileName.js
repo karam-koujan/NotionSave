@@ -9,9 +9,7 @@ function profileName(props) {
     },
     props.name
   );
-  return {
-    name: nameTag,
-  };
+  return nameTag;
 }
 
 export default profileName;

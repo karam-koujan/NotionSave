@@ -7,12 +7,8 @@ function profile({ owner }) {
     alt: owner.user.name,
   });
   const nameTag = profileName({ name: owner.user.name });
-  return {
-    render: function () {
-      parent.appendChild(imgContainer.img);
-      parent.appendChild(nameTag.name);
-    },
-    parent,
-  };
+  parent.appendChild(imgContainer);
+  parent.appendChild(nameTag);
+  return parent;
 }
 export default profile;

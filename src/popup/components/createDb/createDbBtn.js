@@ -8,12 +8,8 @@ function createDbBtn() {
   );
   const wrapper = document.getElementById("createDb");
   btn.addEventListener("click", createDb);
-  return {
-    render: () => {
-      wrapper.appendChild(btn);
-    },
-    dbBtn: btn,
-  };
+  wrapper.appendChild(btn);
+  return btn;
 }
 
 export default createDbBtn;

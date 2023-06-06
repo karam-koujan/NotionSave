@@ -32,7 +32,8 @@ window.onload = () => {
   }
 };
 document.addEventListener("DOMContentLoaded", () => {
-  createDbBtn().render();
+  // create database button
+  createDbBtn();
   const loginBtn = document.getElementById("login");
   const btn = document.getElementById("createDbBtn");
   const redirectUrlQuery = JSON.parse(localStorage.getItem("redirectUrlCode"));
@@ -68,7 +69,8 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("user", JSON.stringify(data.data));
 
         loginWrapper.removeChild(loginBtn);
-        profile(data.data).render();
+        // create profile elements
+        profile(data.data);
         btn.style.display = "block";
         if (data.error) {
           return console.log("error");
@@ -76,9 +78,10 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
   if (!user) {
-    login().render();
+    // create login button
+    login();
     btn.style.display = "none";
   } else {
-    profile(user).render();
+    profile(user);
   }
 });
