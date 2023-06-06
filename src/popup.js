@@ -1,4 +1,3 @@
-import createElement from "./helpers/createElement";
 import createDbBtn from "./popup/components/createDb/createDbBtn";
 import login from "./popup/components/login/login";
 import profile from "./popup/components/profile/profile";
@@ -74,35 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("user", JSON.stringify(data.data));
 
         loginBtn().loginBtn.parentElement.removeChild(loginBtn);
-        const nameTag = createElement(
-          "p",
-          {
-            style:
-              "color:#37352f;font-size:17px;text-align:center;font-weight:bold;margin-top:.5rem;",
-          },
-          data.data.owner.user.name
-        );
-        const profileImg = createElement(
-          "img",
-          {
-            style:
-              "object-fit:cover;border-radius:50%;width:100%;display:block;",
-            src: data.data.owner.user.avatar_url,
-            alt: data.data.owner.user.name,
-          },
-          ""
-        );
-        const imgContainer = createElement(
-          "div",
-          {
-            style:
-              "border-radius:50%; margin-inline:auto; width:100px; margin-top:1rem;",
-          },
-          profileImg
-        );
-        const parent = document.getElementById("parent");
-        parent.appendChild(imgContainer);
-        parent.appendChild(nameTag);
+        profile(data.data).render();
         btn.style.display = "block";
         if (data.error) {
           return console.log("error");
