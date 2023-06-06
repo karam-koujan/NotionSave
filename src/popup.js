@@ -32,10 +32,8 @@ window.onload = () => {
   }
 };
 document.addEventListener("DOMContentLoaded", () => {
-  const loginBtn = login;
   createDbBtn().render();
-  login();
-  createDbBtn();
+  const loginBtn = document.getElementById("login");
   const btn = document.getElementById("createDbBtn");
   const redirectUrlQuery = JSON.parse(localStorage.getItem("redirectUrlCode"));
   const loginWrapper = document.getElementById("connect");
@@ -45,9 +43,9 @@ document.addEventListener("DOMContentLoaded", () => {
       : undefined;
 
   if (!user && redirectUrlQuery) {
-    fetch(
-      `http://localhost:3000/api/auth?code=${redirectUrlQuery.code}&error=${redirectUrlQuery.error}`
-    )
+    const redirectUri = `http://localhost:3000/api/auth?code=${redirectUrlQuery.code}&error=${redirectUrlQuery.error}`;
+
+    fetch(redirectUri)
       .then((res) => res.json())
       .then((data) => {
         fetch("http://localhost:3000/api/dbId", {
@@ -78,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
   if (!user) {
-    loginBtn().render();
+    login().render();
     btn.style.display = "none";
   } else {
     profile(user).render();
