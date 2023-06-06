@@ -1,6 +1,7 @@
 import createElement from "./helpers/createElement";
 import createDbBtn from "./popup/components/createDb/createDbBtn";
 import login from "./popup/components/login/login";
+import profile from "./popup/components/profile/profile";
 
 window.onload = () => {
   const btn = document.getElementById("createDbBtn");
@@ -119,33 +120,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (user) {
-    const nameTag = createElement(
-      "p",
-      {
-        style:
-          "color:#37352f;font-size:17px;text-align:center;font-weight:bold;margin-top:.5rem;",
-      },
-      user.owner.user.name
-    );
-    const profileImg = createElement(
-      "img",
-      {
-        style: "object-fit:cover;border-radius:50%;width:100%;display:block;",
-        src: user.owner.user.avatar_url,
-        alt: user.owner.user.name,
-      },
-      ""
-    );
-    const imgContainer = createElement(
-      "div",
-      {
-        style:
-          "border-radius:50%; margin-inline:auto; width:100px; margin-top:1rem;",
-      },
-      profileImg
-    );
-    const parent = document.getElementById("parent");
-    parent.appendChild(imgContainer);
-    parent.appendChild(nameTag);
+    profile(user).render();
   }
 });
