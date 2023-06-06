@@ -1,5 +1,7 @@
-function createDB() {
+function createDb() {
+  const btn = document.getElementById("createDbBtn");
   btn.textContent = "Creating...";
+  const user = JSON.parse(localStorage.getItem("user"));
   fetch("http://localhost:3000/api/createDB", {
     method: "POST",
     headers: {
@@ -8,7 +10,6 @@ function createDB() {
     },
   }).then(() => {
     btn.textContent = "Database is created!!";
-    localStorage.setItem("isDbCreated", true);
   });
 }
-export default createDB;
+export default createDb;

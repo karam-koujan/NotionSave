@@ -1,37 +1,43 @@
-html,body{
-    width: 400px;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-} 
-.title{
-    color: #37352f;
-    width: fit-content;
-    padding-block: 1rem;
-    margin: auto;
+html,
+body {
+  width: 400px;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-.introduction{
-    color: #37352f;
-    width: fit-content;
-    margin: auto;
-    font-size: 13px;
-    text-align: center;
+.title {
+  color: #37352f;
+  width: fit-content;
+  padding-block: 1rem;
+  margin: auto;
 }
-.createDb{
-    background-color: #2383e2;
-    color: white;
-    text-transform: capitalize;
-    outline: none;
-    border: none;
-    font-weight: bold;
-    border-radius:3px ;
-    padding: 6px 8px;
-    margin-inline: auto;
-    margin-block: 1rem;
-    display: block;
-    cursor: pointer;
-    transition: opacity 0.5 ease-in;
+.introduction {
+  color: #37352f;
+  width: fit-content;
+  margin: auto;
+  font-size: 13px;
+  text-align: center;
 }
-.createDb:hover,.createDb:focus{
-  opacity: .8;
+.createDb {
+  background-color: #2383e2;
+  color: white;
+  text-transform: capitalize;
+  outline: none;
+  border: none;
+  font-weight: bold;
+  border-radius: 3px;
+  padding: 6px 8px;
+  margin-inline: auto;
+  margin-block: 1rem;
+  display: block;
+  cursor: pointer;
+  transition: opacity 0.5 ease-in;
+}
+.createDb:hover,
+.createDb:focus {
+  opacity: 0.8;
+}
+#createDb {
+  margin: auto;
+  width: fit-content;
 }

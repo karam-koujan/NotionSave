@@ -1,54 +1,9 @@
 import createElement from "./helpers/createElement";
-import createDB from "./popup/createDb";
+import createDbBtn from "./popup/components/createDb/createDbBtn";
+import login from "./popup/components/login/login";
 
-function getCodeAndErrorFromRedirectUri(redirectUri) {
-  const url = new URL(redirectUri);
-  const code = url.searchParams.get("code");
-  const error = url.searchParams.get("error");
-
-  return {
-    code: code,
-    error: error,
-  };
-}
-
-const auth = () => {
-  const loginBtn = document.getElementById("login");
-  loginBtn.textContent = "Connecting...";
-  const authUrl =
-    "https://api.notion.com/v1/oauth/authorize?client_id=886c4ba1-a766-4abe-b227-68d823f578eb&response_type=code&owner=user&redirect_uri=https%3A%2F%2Flgfogmkjmheekcelnijmlmbojdbaoabh.chromiumapp.org%2F";
-  chrome.identity.launchWebAuthFlow(
-    {
-      url: authUrl,
-      interactive: true,
-    },
-    function (redirectUrl) {
-      if (chrome.runtime.lastError || !redirectUrl) {
-        console.error(chrome.runtime.lastError);
-        return;
-      }
-      console.log(redirectUrl);
-      const redirectUrlQuery = getCodeAndErrorFromRedirectUri(redirectUrl);
-      console.log("dd");
-      if (redirectUrlQuery.code) {
-      }
-      localStorage.setItem("redirectUrlCode", JSON.stringify(redirectUrlQuery));
-      console.log("token letsift");
-    }
-  );
-
-  const user = JSON.parse(localStorage.getItem("user"));
-  if (user) {
-    setTimeout(() => {
-      chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, { accessToken: user.access_token });
-      });
-    }, 500);
-  }
-};
 window.onload = () => {
-  const btn = document.getElementById("checkButton");
-
+  const btn = document.getElementById("createDbBtn");
   const user = JSON.parse(localStorage.getItem("user"));
   console.log(user);
 
@@ -79,15 +34,11 @@ window.onload = () => {
   }
 };
 document.addEventListener("DOMContentLoaded", () => {
-  const loginBtn = createElement(
-    "button",
-    { id: "login", class: "createDb" },
-    "Connect to notion"
-  );
-  const loginWrapper = document.getElementById("connect");
-  const btn = document.getElementById("checkButton");
-
-  loginBtn.addEventListener("click", auth);
+  const loginBtn = login;
+  createDbBtn().render();
+  login();
+  createDbBtn();
+  const btn = document.getElementById("createDbBtn");
   const redirectUrlQuery = JSON.parse(localStorage.getItem("redirectUrlCode"));
   const user =
     localStorage.getItem("user") !== "undefined"
@@ -121,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
           });
         localStorage.setItem("user", JSON.stringify(data.data));
 
-        loginBtn.parentElement.removeChild(loginBtn);
+        loginBtn().loginBtn.parentElement.removeChild(loginBtn);
         const nameTag = createElement(
           "p",
           {
@@ -160,25 +111,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const isLogged = JSON.parse(localStorage.getItem("user"));
   console.log("isLogged", isLogged);
   if (isLogged === null) {
-    loginWrapper.appendChild(loginBtn);
+    loginBtn().render();
   }
 
   if (!user) {
     btn.style.display = "none";
   }
-  btn.addEventListener("click", () => {
-    btn.textContent = "Creating...";
-    fetch("http://localhost:3000/api/createDB", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: user.access_token,
-      },
-    }).then(() => {
-      btn.textContent = "Database is created!!";
-      localStorage.setItem("isDbCreated", true);
-    });
-  });
+
   if (user) {
     const nameTag = createElement(
       "p",
