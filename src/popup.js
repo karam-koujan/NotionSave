@@ -5,7 +5,6 @@ import profile from "./popup/components/profile/profile";
 window.onload = () => {
   const btn = document.getElementById("createDbBtn");
   const user = JSON.parse(localStorage.getItem("user"));
-  console.log(user);
 
   if (user) {
     fetch("http://localhost:3000/api/dbId", {
@@ -40,6 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
   createDbBtn();
   const btn = document.getElementById("createDbBtn");
   const redirectUrlQuery = JSON.parse(localStorage.getItem("redirectUrlCode"));
+  const loginWrapper = document.getElementById("connect");
   const user =
     localStorage.getItem("user") !== "undefined"
       ? JSON.parse(localStorage.getItem("user"))
@@ -61,7 +61,6 @@ document.addEventListener("DOMContentLoaded", () => {
         })
           .then((res) => res.json())
           .then((res) => {
-            console.log(res.dbId.length);
             if (res.error || res.dbId.length === 0) {
               btn.textContent = "Create Notion Database";
             } else {
@@ -72,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
           });
         localStorage.setItem("user", JSON.stringify(data.data));
 
-        loginBtn().loginBtn.parentElement.removeChild(loginBtn);
+        loginWrapper.removeChild(loginBtn);
         profile(data.data).render();
         btn.style.display = "block";
         if (data.error) {
@@ -80,17 +79,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
   }
-  const isLogged = JSON.parse(localStorage.getItem("user"));
-  console.log("isLogged", isLogged);
-  if (isLogged === null) {
-    loginBtn().render();
-  }
-
   if (!user) {
+    loginBtn().render();
     btn.style.display = "none";
-  }
-
-  if (user) {
+  } else {
     profile(user).render();
   }
 });
