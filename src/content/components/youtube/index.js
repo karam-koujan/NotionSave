@@ -42,7 +42,9 @@ function youtubeSave() {
   navigation.addEventListener("navigate", (navigateEvent) => {
     if (!navigateEvent.hashChange) {
       youtubeSaveBtnTxt.textContent = "Notion";
-      getTheVideoTitle("above-the-fold", (title) => {
+      console.log("change", youtubeVidTitle);
+      getTheVideoTitle("#above-the-fold", (title) => {
+        console.log(title);
         youtubeVidTitle = title;
       });
     }

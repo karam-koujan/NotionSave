@@ -3,7 +3,6 @@ const generateNotionPageData = require("../helpers/generateNotionPageData");
 
 const bookmarkController = async (req, res) => {
   const { link, type, metaData } = req.body;
-  console.log("aut", req.headers.authorization);
   try {
     const dbId = await getDatabasesId(
       "Social Media Bookmarks",

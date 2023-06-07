@@ -5,8 +5,8 @@ import profile from "./popup/components/profile/profile";
 window.onload = () => {
   const btn = document.getElementById("createDbBtn");
   const user = JSON.parse(localStorage.getItem("user"));
-
-  if (user) {
+  console.log("user", user);
+  if (user !== null) {
     fetch("http://localhost:3000/api/dbId", {
       method: "GET",
       headers: {
@@ -49,6 +49,9 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch(redirectUri)
       .then((res) => res.json())
       .then((data) => {
+        if (data.error) {
+          return;
+        }
         fetch("http://localhost:3000/api/dbId", {
           method: "GET",
           headers: {
@@ -67,10 +70,10 @@ document.addEventListener("DOMContentLoaded", () => {
             }
           });
         localStorage.setItem("user", JSON.stringify(data.data));
-
-        loginWrapper.removeChild(loginBtn);
-        // create profile elements
         profile(data.data);
+        loginWrapper.removeChild(loginBtn);
+
+        // create profile elements
         btn.style.display = "block";
         if (data.error) {
           return console.log("error");

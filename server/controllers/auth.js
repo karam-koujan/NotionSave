@@ -9,7 +9,7 @@ const authController = async (req, res) => {
   const clientId = process.env.CLIENT_ID;
   const clientSecret = process.env.CLIENT_SECRET;
   const redirectUri = process.env.REDIRECT_URI;
-
+  console.log("client", clientId);
   // encode in base 64
   const encoded = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
   try {
@@ -36,7 +36,7 @@ const authController = async (req, res) => {
 
     res.json({ message: "sucess", data, error: false });
   } catch (err) {
-    console.log(err);
+    return res.json({ message: "invalid client", error: true });
   }
 };
 
