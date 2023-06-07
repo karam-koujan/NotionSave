@@ -1,10 +1,13 @@
-const { Client } = require("@notionhq/client");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const getPagesId = require("./helpers/getPagesId");
+const getDatabasesId = require("./helpers/getDatabasesId");
+const { bookmarkController } = require("./controllers/bookmark");
 const app = express();
 const port = 3000;
 require("dotenv").config();
+
 app.use(bodyParser.json());
 app.use(
   cors({
@@ -25,6 +28,8 @@ app.get("/api/dbId", async (req, res) => {
 app.post("/api/createDB", async (req, res) => {
   try {
     const idList = await getPagesId(req.headers.authorization);
+
+    // get the first page and ingore all the other pages.
     const pageId = idList[0];
     const notionDbdata = {
       parent: {
@@ -74,87 +79,9 @@ app.post("/api/createDB", async (req, res) => {
   }
 });
 
-app.post("/api/bookmark", async (req, res) => {
-  const { link, type, metaData } = req.body;
-  console.log("aut", req.headers.authorization);
-  try {
-    const dbId = await getDatabasesId(
-      "Social Media Bookmarks",
-      req.headers.authorization
-    );
-    const url = "https://api.notion.com/v1/pages";
-    let notionPagedata;
-    if (type === "youtube") {
-      notionPagedata = {
-        parent: {
-          type: "database_id",
-          database_id: dbId[dbId.length - 1],
-        },
-        properties: {
-          Title: {
-            type: "title",
-            title: [{ type: "text", text: { content: metaData.title } }],
-          },
-          "Social Media": {
-            select: {
-              name: "youtube",
-            },
-          },
-          Link: { url: link },
-        },
-        children: [
-          {
-            type: "embed",
-            embed: { url: link },
-          },
-        ],
-      };
-    } else {
-      notionPagedata = {
-        parent: {
-          type: "database_id",
-          database_id: dbId[dbId.length - 1],
-        },
-        properties: {
-          Title: {
-            type: "title",
-            title: [{ type: "text", text: { content: metaData.title } }],
-          },
-          "Social Media": {
-            select: {
-              name: "twitter",
-            },
-          },
-          Link: { url: link },
-        },
-        children: [
-          {
-            type: "embed",
-            embed: { url: link },
-          },
-        ],
-      };
-    }
+app.post("/api/bookmark", bookmarkController);
 
-    const options = {
-      method: "POST",
-      headers: {
-        accept: "application/json",
-        "Notion-Version": "2022-06-28",
-        "content-type": "application/json",
-        authorization: `Bearer ${req.headers.authorization}`,
-      },
-      body: JSON.stringify(notionPagedata),
-    };
-
-    const response = await fetch(url, options);
-    const resJson = await response.json();
-    console.log(resJson);
-    return res.status(201).json({ message: "page is created" });
-  } catch (err) {
-    console.log(err);
-  }
-});
+////////////////////////////////////////////////
 
 app.get("/api/auth", async (req, res) => {
   const { code, error } = req.query;
@@ -200,38 +127,3 @@ app.get("/api/auth", async (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-
-function getPagesId(token) {
-  const notion = new Client({
-    auth: token,
-  });
-  return new Promise((resolve, reject) => {
-    notion
-      .search({
-        filter: {
-          value: "page",
-          property: "object",
-        },
-      })
-      .then(({ results }) => resolve(results.map((result) => result.id)))
-      .catch((err) => reject(err));
-  });
-}
-function getDatabasesId(query, token) {
-  console.log(token);
-  const notion = new Client({
-    auth: token,
-  });
-  return new Promise((resolve, reject) => {
-    notion
-      .search({
-        query,
-        filter: {
-          value: "database",
-          property: "object",
-        },
-      })
-      .then(({ results }) => resolve(results.map((result) => result.id)))
-      .catch((err) => reject(err));
-  });
-}
