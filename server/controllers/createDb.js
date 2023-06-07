@@ -46,7 +46,8 @@ const createDbController = async (req, res) => {
       body: JSON.stringify(notionDbdata),
     };
     const response = await fetch(url, options);
-    const resJson = await res.json();
+    const resJson = await response.json();
+    return res.json({ message: "database is created", error: false });
     console.log(resJson);
   } catch (err) {
     console.log(err);
