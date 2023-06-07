@@ -1,4 +1,5 @@
 const getDatabasesId = require("../helpers/getDatabasesId");
+const generateNotionPageData = require("../helpers/generateNotionPageData");
 
 exports.bookmarkController = async (req, res) => {
   const { link, type, metaData } = req.body;
@@ -8,58 +9,12 @@ exports.bookmarkController = async (req, res) => {
       "Social Media Bookmarks",
       req.headers.authorization
     );
-    let notionPagedata;
-    if (type === "youtube") {
-      notionPagedata = {
-        parent: {
-          type: "database_id",
-          database_id: dbId[dbId.length - 1],
-        },
-        properties: {
-          Title: {
-            type: "title",
-            title: [{ type: "text", text: { content: metaData.title } }],
-          },
-          "Social Media": {
-            select: {
-              name: "youtube",
-            },
-          },
-          Link: { url: link },
-        },
-        children: [
-          {
-            type: "embed",
-            embed: { url: link },
-          },
-        ],
-      };
-    } else {
-      notionPagedata = {
-        parent: {
-          type: "database_id",
-          database_id: dbId[dbId.length - 1],
-        },
-        properties: {
-          Title: {
-            type: "title",
-            title: [{ type: "text", text: { content: metaData.title } }],
-          },
-          "Social Media": {
-            select: {
-              name: "twitter",
-            },
-          },
-          Link: { url: link },
-        },
-        children: [
-          {
-            type: "embed",
-            embed: { url: link },
-          },
-        ],
-      };
-    }
+
+    const notionPagedata = generateNotionPageData({
+      type: type,
+      content: { ...metaData, link },
+      dbId,
+    });
 
     const options = {
       method: "POST",
