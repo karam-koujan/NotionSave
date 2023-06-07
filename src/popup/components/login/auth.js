@@ -21,7 +21,6 @@ function auth() {
       if (redirectUrlQuery.code) {
       }
       localStorage.setItem("redirectUrlCode", JSON.stringify(redirectUrlQuery));
-      console.log("token letsift");
     }
   );
 

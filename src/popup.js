@@ -34,16 +34,15 @@ window.onload = () => {
 document.addEventListener("DOMContentLoaded", () => {
   // create database button
   createDbBtn();
-  const loginBtn = document.getElementById("login");
   const btn = document.getElementById("createDbBtn");
   const redirectUrlQuery = JSON.parse(localStorage.getItem("redirectUrlCode"));
   const loginWrapper = document.getElementById("connect");
-  const user =
+  let user =
     localStorage.getItem("user") !== "undefined"
       ? JSON.parse(localStorage.getItem("user"))
       : undefined;
-
   if (!user && redirectUrlQuery) {
+    console.log("dom", user);
     const redirectUri = `http://localhost:3000/api/auth?code=${redirectUrlQuery.code}&error=${redirectUrlQuery.error}`;
 
     fetch(redirectUri)
@@ -52,6 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (data.error) {
           return;
         }
+
         fetch("http://localhost:3000/api/dbId", {
           method: "GET",
           headers: {
@@ -69,10 +69,12 @@ document.addEventListener("DOMContentLoaded", () => {
               btn.disabled = true;
             }
           });
+        const loginBtn = document.getElementById("login");
         localStorage.setItem("user", JSON.stringify(data.data));
         profile(data.data);
-        loginWrapper.removeChild(loginBtn);
-
+        if (loginBtn) {
+          loginBtn.style.display = "none";
+        }
         // create profile elements
         btn.style.display = "block";
         if (data.error) {
@@ -80,6 +82,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
   }
+  user =
+    localStorage.getItem("user") !== "undefined"
+      ? JSON.parse(localStorage.getItem("user"))
+      : undefined;
   if (!user) {
     // create login button
     login();
