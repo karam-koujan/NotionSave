@@ -1,7 +1,7 @@
 const getDatabasesId = require("../helpers/getDatabasesId");
 const generateNotionPageData = require("../helpers/generateNotionPageData");
 
-exports.bookmarkController = async (req, res) => {
+const bookmarkController = async (req, res) => {
   const { link, type, metaData } = req.body;
   console.log("aut", req.headers.authorization);
   try {
@@ -36,3 +36,5 @@ exports.bookmarkController = async (req, res) => {
     console.log(err);
   }
 };
+
+module.exports = bookmarkController;
