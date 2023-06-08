@@ -6,7 +6,7 @@ Save time while browsing social media platforms like Twitter and YouTube with No
 
 ## Demo
 
-https://twitter.com/karamkaku/status/1664772822952996867
+https://twitter.com/karamkaku/status/1666900099333513236
 
 ## Run Locally
 
