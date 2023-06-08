@@ -1,26 +1,39 @@
 # NotionSave
 
-## Extension Demo
+Save time while browsing social media platforms like Twitter and YouTube with NotionSave. This convenient Chrome extension allows you to effortlessly capture and store links to valuable posts and videos in your Notion database. No more manual copying and pasting – simply click a button and keep all your useful information organized for easy access later.
 
-[NotionSave Demo](https://twitter.com/karamkaku/status/16647728229529968)
+## Demo
 
-## Installation
+https://twitter.com/karamkaku/status/1664772822952996867
 
-```shell
- git clone https://github.com/karam-koujan/NotionSave.git
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://link-to-project
 ```
 
-### Client
+Go to the project directory
 
-```shell
- npm install
- npm run build
+```bash
+  cd my-project
 ```
 
-### Server
+Install dependencies
 
-```shell
- cd server
- npm install
- npm run dev
+```bash
+  npm install
+  npm run build
+```
+
+Start the server
+
+```bash
+cd server
+```
+
+```bash
+npm install
+npm run dev
 ```
