@@ -36,11 +36,12 @@ document.addEventListener("DOMContentLoaded", () => {
   createDbBtn();
   const btn = document.getElementById("createDbBtn");
   const redirectUrlQuery = JSON.parse(localStorage.getItem("redirectUrlCode"));
-  const loginWrapper = document.getElementById("connect");
+
   let user =
     localStorage.getItem("user") !== "undefined"
       ? JSON.parse(localStorage.getItem("user"))
       : undefined;
+
   if (!user && redirectUrlQuery) {
     console.log("dom", user);
     const redirectUri = `http://localhost:3000/api/auth?code=${redirectUrlQuery.code}&error=${redirectUrlQuery.error}`;
