@@ -2,7 +2,7 @@
 
 ## Extension Demo
 
-![NotionSave Demo](https://twitter.com/karamkaku/status/16647728229529968)
+[NotionSave Demo](https://twitter.com/karamkaku/status/16647728229529968)
 
 ## Installation
 
