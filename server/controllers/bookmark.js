@@ -8,7 +8,7 @@ const bookmarkController = async (req, res) => {
       "Social Media Bookmarks",
       req.headers.authorization
     );
-
+    console.log("databaseId", dbId);
     const notionPagedata = generateNotionPageData({
       type: type,
       content: { ...metaData, link },
