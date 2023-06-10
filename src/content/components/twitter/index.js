@@ -1,3 +1,4 @@
+import bookmark from "../../../helpers/bookmark";
 import createElement from "../../../helpers/createElement";
 import getElementByAttr from "../../../helpers/getElementByAttr";
 
@@ -53,22 +54,14 @@ function twitterSave() {
     });
     const link = window.location.href;
     saveText.textContent = "Saving...";
-    const token = localStorage.getItem("token");
-    const databaseId = localStorage.getItem("databaseId");
+
     const data = {
-      databaseId,
       link,
       type: "twitter",
       metaData: { title: tweetText },
     };
-    fetch("http://localhost:3000/api/bookmark", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-      body: JSON.stringify(data),
-    })
+    const save = bookmark(data);
+    save
       .then(() => {
         saveText.textContent = "Saved";
       })

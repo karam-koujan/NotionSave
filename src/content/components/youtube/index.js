@@ -1,3 +1,4 @@
+import bookmark from "../../../helpers/bookmark";
 import createElement from "../../../helpers/createElement";
 import getElementByAttr from "../../../helpers/getElementByAttr";
 import { getTheVideoTitle } from "./helpers";
@@ -60,22 +61,14 @@ function youtubeSave() {
   youtubeSaveBtn.addEventListener("click", () => {
     const link = window.location.href;
     youtubeSaveBtnTxt.textContent = "Saving...";
-    const token = localStorage.getItem("token");
-    const databaseId = localStorage.getItem("databaseId");
+
     const data = {
-      databaseId,
       link,
       type: "youtube",
       metaData: { title: youtubeVidTitle },
     };
-    fetch("http://localhost:3000/api/bookmark", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-      body: JSON.stringify(data),
-    })
+    const save = bookmark(data);
+    save
       .then(() => {
         youtubeSaveBtnTxt.textContent = "Saved";
       })
