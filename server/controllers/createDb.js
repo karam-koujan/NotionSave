@@ -47,8 +47,12 @@ const createDbController = async (req, res) => {
     };
     const response = await fetch(url, options);
     const resJson = await response.json();
-    return res.json({ message: "database is created", error: false });
-    console.log(resJson);
+    console.log("databaseisCreated", resJson);
+    return res.json({
+      message: "database is created",
+      error: false,
+      data: resJson,
+    });
   } catch (err) {
     console.log(err);
   }

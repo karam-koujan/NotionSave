@@ -2,17 +2,12 @@ const getDatabasesId = require("../helpers/getDatabasesId");
 const generateNotionPageData = require("../helpers/generateNotionPageData");
 
 const bookmarkController = async (req, res) => {
-  const { link, type, metaData } = req.body;
+  const { databaseId, link, type, metaData } = req.body;
   try {
-    const dbId = await getDatabasesId(
-      "Social Media Bookmarks",
-      req.headers.authorization
-    );
-    console.log("databaseId", dbId);
     const notionPagedata = generateNotionPageData({
       type: type,
       content: { ...metaData, link },
-      dbId,
+      dbId: databaseId,
     });
 
     const options = {

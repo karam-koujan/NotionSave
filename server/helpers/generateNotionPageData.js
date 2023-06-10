@@ -2,7 +2,7 @@ function generateNotionPageData({ type, content, dbId }) {
   notionPagedata = {
     parent: {
       type: "database_id",
-      database_id: dbId[dbId.length - 1],
+      database_id: dbId,
     },
     properties: {
       Title: {

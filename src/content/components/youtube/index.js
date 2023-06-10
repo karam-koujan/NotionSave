@@ -61,7 +61,9 @@ function youtubeSave() {
     const link = window.location.href;
     youtubeSaveBtnTxt.textContent = "Saving...";
     const token = localStorage.getItem("token");
+    const databaseId = localStorage.getItem("databaseId");
     const data = {
+      databaseId,
       link,
       type: "youtube",
       metaData: { title: youtubeVidTitle },

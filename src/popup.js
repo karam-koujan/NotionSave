@@ -24,11 +24,16 @@ window.onload = () => {
           btn.disabled = true;
         }
       });
+    const databaseId = localStorage.getItem("databaseId");
+
     setTimeout(() => {
       chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         chrome.tabs.sendMessage(tabs[0].id, { accessToken: user.access_token });
       });
     }, 500);
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, { databaseId });
+    });
   }
 };
 document.addEventListener("DOMContentLoaded", () => {

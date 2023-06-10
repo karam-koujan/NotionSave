@@ -12,7 +12,11 @@ if (location.hostname.indexOf("twitter") !== -1) {
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   if (message.accessToken) {
-    var accessToken = message.accessToken;
+    const accessToken = message.accessToken;
     localStorage.setItem("token", accessToken);
+  }
+  if (message.databaseId) {
+    const databaseId = message.databaseId;
+    localStorage.setItem("databaseId", databaseId);
   }
 });

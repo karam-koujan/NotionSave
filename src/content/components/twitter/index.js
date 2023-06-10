@@ -54,7 +54,13 @@ function twitterSave() {
     const link = window.location.href;
     saveText.textContent = "Saving...";
     const token = localStorage.getItem("token");
-    const data = { link, type: "twitter", metaData: { title: tweetText } };
+    const databaseId = localStorage.getItem("databaseId");
+    const data = {
+      databaseId,
+      link,
+      type: "twitter",
+      metaData: { title: tweetText },
+    };
     fetch("http://localhost:3000/api/bookmark", {
       method: "POST",
       headers: {
