@@ -18,7 +18,12 @@
   "content_scripts": [
     {
       "js": ["scripts/content.js"],
-      "matches": ["https://twitter.com/*", "https://www.youtube.com/*"]
+      "matches": [
+        "https://twitter.com/*",
+        "https://www.youtube.com/*",
+        "https://www.reddit.com/*",
+        "https://www.reddit.com/"
+      ]
     }
   ]
 }

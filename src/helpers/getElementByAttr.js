@@ -1,5 +1,7 @@
-function getElementByAttr(attributeFilter, callback) {
-  const element = document.querySelector(attributeFilter);
+function getElementByAttr(attributeFilter, callback, all = false) {
+  const element = !all
+    ? document.querySelector(attributeFilter)
+    : document.querySelectorAll(attributeFilter);
   if (element) {
     callback(element);
   } else {
