@@ -1,39 +1,29 @@
 import getElementByAttr from "../../../helpers/getElementByAttr";
 import createElement from "../../../helpers/createElement";
-
+import bookmark from "../../../helpers/bookmark";
 function reddit() {
   const saveText = createElement("span", {}, "Notion");
+  let postTitle = "";
   const save = createElement(
     "div",
     {
       style:
-        "display:flex;justify-content:center;align-items:center; margin-inline:.6rem;",
+        "display:flex;justify-content:center;align-items:center; margin-inline:.6rem;cursor:pointer;",
     },
     saveText
   );
+  getElementByAttr("h1", (element) => {
+    postTitle = element.textContent;
+    console.log(postTitle);
+  });
 
-  const saveToNotion = (element) => {
-    const elementText = element.lastChild.textContent;
-    if (elementText === "unsave") return;
-    console.log(window.location.href, "work");
-  };
-
-  getElementByAttr(
-    "[data-adclicklocation='fl_unknown']",
-    (elements) => {
-      console.log(elements);
-      for (let element of elements) {
-        element.insertAdjacentElement("beforeend", save);
-        element.firstElementChild.addEventListener("click", () =>
-          saveToNotion(element)
-        );
-      }
-    },
-    true
-  );
   navigation.addEventListener("navigate", (navigateEvent) => {
     if (!navigateEvent.hashChange) {
-      console.log("change");
+      saveText.textContent = "Notion";
+      getElementByAttr("h1", (element) => {
+        postTitle = element.textContent;
+        console.log(postTitle);
+      });
       const intervalID = setInterval(() => {
         console.log("interval");
         getElementByAttr(
@@ -45,15 +35,52 @@ function reddit() {
             }
             for (let element of elements) {
               element.insertAdjacentElement("beforeend", save);
-              element.firstElementChild.addEventListener("click", () =>
-                saveToNotion(element)
-              );
             }
+            clearInterval(intervalID);
           },
           true
         );
       }, 500);
     }
+  });
+  if (!postTitle) {
+    getElementByAttr("h1", (element) => {
+      postTitle = element.textContent;
+      console.log(postTitle);
+    });
+  }
+
+  const intervalID = setInterval(() => {
+    getElementByAttr(
+      "[data-adclicklocation='fl_unknown']",
+      (elements) => {
+        console.log(elements);
+        for (let element of elements) {
+          element.insertAdjacentElement("beforeend", save);
+        }
+        clearInterval(intervalID);
+      },
+      true
+    );
+  }, 500);
+
+  save.addEventListener("click", () => {
+    const link = window.location.href;
+    saveText.textContent = "Saving...";
+    const data = {
+      link,
+      type: "reddit",
+      metaData: { title: postTitle },
+    };
+    console.log(data);
+    const save = bookmark(data);
+    save
+      .then(() => {
+        saveText.textContent = "Saved";
+      })
+      .catch(() => {
+        saveText.textContent = "Error";
+      });
   });
 }
 
