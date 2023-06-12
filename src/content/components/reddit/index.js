@@ -26,6 +26,7 @@ function reddit() {
             .textContent;
         console.log(postTitle);
       });
+      let count = 0;
       const intervalID = setInterval(() => {
         console.log("interval");
         getElementByAttr(
@@ -37,6 +38,10 @@ function reddit() {
           },
           true
         );
+        if (count === 2) {
+          clearInterval(intervalID);
+        }
+        count++;
       }, 500);
     }
   });
@@ -48,6 +53,7 @@ function reddit() {
   }
 
   const intervalID = setInterval(() => {
+    let count = 0;
     getElementByAttr(
       "[data-adclicklocation='fl_unknown']",
       (elements) => {
@@ -59,6 +65,10 @@ function reddit() {
       },
       true
     );
+    if (count === 2) {
+      clearInterval(intervalID);
+    }
+    count++;
   }, 500);
 
   save.addEventListener("click", () => {
