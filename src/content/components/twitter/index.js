@@ -21,19 +21,15 @@ function twitterSave() {
   navigation.addEventListener("navigate", (navigateEvent) => {
     if (!navigateEvent.hashChange) {
       setInterval(() => {
-        getElementByAttr(
-          "[data-testid='caret']",
-          (element) => {
-            element.addEventListener("click", () => {
-              saveText.textContent = "Save to Notion";
+        getElementByAttr("[data-testid='caret']", (element) => {
+          element.addEventListener("click", () => {
+            saveText.textContent = "Save to Notion";
 
-              getElementByAttr("[data-testid='Dropdown']", (element) => {
-                element.insertAdjacentElement("afterbegin", wrapper);
-              });
+            getElementByAttr("[data-testid='Dropdown']", (element) => {
+              element.insertAdjacentElement("afterbegin", wrapper);
             });
-          },
-          500
-        );
+          });
+        });
       });
     }
   });
