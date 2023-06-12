@@ -20,12 +20,15 @@ function twitter() {
 
   navigation.addEventListener("navigate", (navigateEvent) => {
     if (!navigateEvent.hashChange) {
-      setInterval(() => {
+      const intervalId = setInterval(() => {
         getElementByAttr("[data-testid='caret']", (element) => {
           element.addEventListener("click", () => {
             saveText.textContent = "Save to Notion";
 
             getElementByAttr("[data-testid='Dropdown']", (element) => {
+              if (element) {
+                clearInterval(intervalId);
+              }
               element.insertAdjacentElement("afterbegin", wrapper);
             });
           });
