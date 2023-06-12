@@ -3,7 +3,7 @@ import createElement from "../../../helpers/createElement";
 import getElementByAttr from "../../../helpers/getElementByAttr";
 import { getTheVideoTitle } from "./helpers";
 
-function youtubeSave() {
+function youtube() {
   // creating Notion button and styling it.
 
   const youtubeSaveBtnTxt = createElement(
@@ -78,4 +78,4 @@ function youtubeSave() {
   });
 }
 
-export default youtubeSave;
+export default youtube;

@@ -2,7 +2,7 @@ import bookmark from "../../../helpers/bookmark";
 import createElement from "../../../helpers/createElement";
 import getElementByAttr from "../../../helpers/getElementByAttr";
 
-function twitterSave() {
+function twitter() {
   const saveText = createElement(
     "p",
     {
@@ -67,4 +67,4 @@ function twitterSave() {
   });
 }
 
-export default twitterSave;
+export default twitter;

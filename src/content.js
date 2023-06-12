@@ -1,14 +1,14 @@
-import youtubeSave from "./content/components/youtube";
-import twitterSave from "./content/components/twitter";
+import youtube from "./content/components/youtube";
+import twitter from "./content/components/twitter";
 import reddit from "./content/components/reddit";
 
 if (location.hostname.indexOf("youtube") !== -1) {
   console.log("youtube....");
-  youtubeSave();
+  youtube();
 }
 
 if (location.hostname.indexOf("twitter") !== -1) {
-  twitterSave();
+  twitter();
 }
 
 if (location.hostname.indexOf("reddit") !== -1) {
