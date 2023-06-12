@@ -20,8 +20,10 @@ function reddit() {
   navigation.addEventListener("navigate", (navigateEvent) => {
     if (!navigateEvent.hashChange) {
       saveText.textContent = "Notion";
-      getElementByAttr("h1", (element) => {
-        postTitle = element.textContent;
+      getElementByAttr("[data-adclicklocation='title']", (element) => {
+        postTitle =
+          element.firstElementChild.firstElementChild.firstElementChild
+            .textContent;
         console.log(postTitle);
       });
       const intervalID = setInterval(() => {
@@ -29,14 +31,9 @@ function reddit() {
         getElementByAttr(
           "[data-adclicklocation='fl_unknown']",
           (elements) => {
-            console.log(elements.length);
-            if (elements.length === 2) {
-              clearInterval(intervalID);
-            }
             for (let element of elements) {
               element.insertAdjacentElement("beforeend", save);
             }
-            clearInterval(intervalID);
           },
           true
         );
