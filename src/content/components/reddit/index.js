@@ -3,7 +3,6 @@ import createElement from "../../../helpers/createElement";
 import bookmark from "../../../helpers/bookmark";
 function reddit() {
   const saveText = createElement("span", {}, "Notion");
-  let postTitle = "";
   const save = createElement(
     "div",
     {
@@ -63,12 +62,11 @@ function reddit() {
     saveText.textContent = "Saving...";
     const regex = /\/([^/]+)\/$/;
     const match = regex.exec(link);
-    postTitle = match ? match[1].replace(/_/g, " ") : "";
-    console.log(postTitle);
+    const title = match ? match[1].replace(/_/g, " ") : "";
     const data = {
       link,
       type: "reddit",
-      metaData: { title: postTitle },
+      metaData: { title },
     };
     console.log(data);
     const save = bookmark(data);
