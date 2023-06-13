@@ -1,5 +1,6 @@
 import { getElementByAttr, createElement, bookmark } from "../../../helpers/";
 import notionSave from "./ui";
+import injectScript from "./injectScript";
 function reddit() {
   const { ui, setState } = notionSave();
 
@@ -7,47 +8,11 @@ function reddit() {
     if (!navigateEvent.hashChange) {
       console.log(navigateEvent.destination.url);
       setState("default");
-
-      let count = 0;
-      const intervalID = setInterval(() => {
-        console.log("interval");
-        getElementByAttr(
-          "[data-adclicklocation='fl_unknown']",
-          (elements) => {
-            for (let element of elements) {
-              element.insertAdjacentElement("beforeend", ui);
-            }
-          },
-          true
-        );
-        if (count === 2) {
-          clearInterval(intervalID);
-        }
-        count++;
-      }, 500);
+      injectScript(ui);
     }
   });
 
-  const intervalID = setInterval(() => {
-    let count = 0;
-    getElementByAttr(
-      "[data-adclicklocation='fl_unknown']",
-      (elements) => {
-        console.log(elements);
-        for (let element of elements) {
-          element.insertAdjacentElement("beforeend", ui);
-        }
-        clearInterval(intervalID);
-      },
-      true
-    );
-
-    if (count === 2) {
-      clearInterval(intervalID);
-    }
-
-    count++;
-  }, 500);
+  injectScript(ui);
 
   ui.addEventListener("click", () => {
     const link = window.location.href;
