@@ -1,4 +1,4 @@
-import { getElementByAttr, createElement, bookmark } from "../../../helpers/";
+import { getElementByAttr, bookmark } from "../../../helpers/";
 import injectScript from "./injectScript";
 import notionSave from "./ui";
 
