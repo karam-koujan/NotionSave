@@ -1,6 +1,4 @@
-import bookmark from "../../../helpers/bookmark";
-import createElement from "../../../helpers/createElement";
-import getElementByAttr from "../../../helpers/getElementByAttr";
+import { getElementByAttr, createElement, bookmark } from "../../../helpers/";
 import { getTheVideoTitle } from "./helpers";
 
 function youtube() {

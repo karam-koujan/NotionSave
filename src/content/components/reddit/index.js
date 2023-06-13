@@ -1,6 +1,4 @@
-import getElementByAttr from "../../../helpers/getElementByAttr";
-import createElement from "../../../helpers/createElement";
-import bookmark from "../../../helpers/bookmark";
+import { getElementByAttr, createElement, bookmark } from "../../../helpers/";
 function reddit() {
   const saveText = createElement("span", {}, "Notion");
   const save = createElement(
@@ -68,7 +66,7 @@ function reddit() {
       type: "reddit",
       metaData: { title },
     };
-    console.log(data);
+
     const save = bookmark(data);
     save
       .then(() => {

@@ -1,6 +1,4 @@
-import youtube from "./content/components/youtube";
-import twitter from "./content/components/twitter";
-import reddit from "./content/components/reddit";
+import { youtube, twitter, reddit } from "./content/components";
 
 if (location.hostname.indexOf("youtube") !== -1) {
   console.log("youtube....");
