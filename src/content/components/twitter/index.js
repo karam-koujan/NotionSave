@@ -1,57 +1,30 @@
 import { getElementByAttr, createElement, bookmark } from "../../../helpers/";
+import injectScript from "./injectScript";
+import notionSave from "./ui";
 
 function twitter() {
-  const saveText = createElement(
-    "p",
-    {
-      style:
-        "color:#e7e9ea;font-family:TwitterChirp;font-size:15px;font-weight:bold;padding:15px 0 12px 3rem;margin:0;",
-    },
-    "Save to Notion"
-  );
-  const wrapper = createElement(
-    "div",
-    { id: "notion", style: "cursor:pointer" },
-    saveText
-  );
+  const { ui, setState } = notionSave();
   let tweetText = "";
 
   navigation.addEventListener("navigate", (navigateEvent) => {
     if (!navigateEvent.hashChange) {
+      setState("default");
       const intervalId = setInterval(() => {
-        getElementByAttr("[data-testid='caret']", (element) => {
-          element.addEventListener("click", () => {
-            saveText.textContent = "Save to Notion";
-
-            getElementByAttr("[data-testid='Dropdown']", (element) => {
-              if (element) {
-                clearInterval(intervalId);
-              }
-              element.insertAdjacentElement("afterbegin", wrapper);
-            });
-          });
-        });
+        injectScript(ui);
+        clearInterval(intervalId);
       });
     }
   });
 
-  getElementByAttr("[data-testid='caret']", (element) => {
-    element.addEventListener("click", () => {
-      saveText.textContent = "Save to Notion";
-      getElementByAttr("[data-testid='Dropdown']", (element) => {
-        element.insertAdjacentElement("afterbegin", wrapper);
-      });
-    });
-  });
+  injectScript(ui);
 
-  wrapper.addEventListener("click", () => {
+  ui.addEventListener("click", () => {
     getElementByAttr("[data-testid='tweetText']", (element) => {
       tweetText = element.firstChild.textContent;
       tweetText = tweetText.length < 10 ? tweetText : tweetText.slice(0, 10);
     });
     const link = window.location.href;
-    saveText.textContent = "Saving...";
-
+    setState("loading");
     const data = {
       link,
       type: "twitter",
@@ -60,10 +33,10 @@ function twitter() {
     const save = bookmark(data);
     save
       .then(() => {
-        saveText.textContent = "Saved";
+        setState("success");
       })
       .catch(() => {
-        saveText.textContent = "error";
+        setState("error");
       });
   });
 }
