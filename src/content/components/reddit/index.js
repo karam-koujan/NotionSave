@@ -12,20 +12,11 @@ function reddit() {
     },
     saveText
   );
-  getElementByAttr("h1", (element) => {
-    postTitle = element.textContent;
-    console.log(postTitle);
-  });
 
   navigation.addEventListener("navigate", (navigateEvent) => {
     if (!navigateEvent.hashChange) {
+      console.log(navigateEvent.destination.url);
       saveText.textContent = "Notion";
-      getElementByAttr("[data-adclicklocation='title']", (element) => {
-        postTitle =
-          element.firstElementChild.firstElementChild.firstElementChild
-            .textContent;
-        console.log(postTitle);
-      });
       let count = 0;
       const intervalID = setInterval(() => {
         console.log("interval");
@@ -45,12 +36,6 @@ function reddit() {
       }, 500);
     }
   });
-  if (!postTitle) {
-    getElementByAttr("h1", (element) => {
-      postTitle = element.textContent;
-      console.log(postTitle);
-    });
-  }
 
   const intervalID = setInterval(() => {
     let count = 0;
@@ -65,15 +50,21 @@ function reddit() {
       },
       true
     );
+
     if (count === 2) {
       clearInterval(intervalID);
     }
+
     count++;
   }, 500);
 
   save.addEventListener("click", () => {
     const link = window.location.href;
     saveText.textContent = "Saving...";
+    const regex = /\/([^/]+)\/$/;
+    const match = regex.exec(link);
+    postTitle = match ? match[1].replace(/_/g, " ") : "";
+    console.log(postTitle);
     const data = {
       link,
       type: "reddit",
