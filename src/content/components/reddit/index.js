@@ -1,4 +1,4 @@
-import { getElementByAttr, createElement, bookmark } from "../../../helpers/";
+import { bookmark } from "../../../helpers/";
 import notionSave from "./ui";
 import injectScript from "./injectScript";
 function reddit() {
@@ -6,7 +6,6 @@ function reddit() {
 
   navigation.addEventListener("navigate", (navigateEvent) => {
     if (!navigateEvent.hashChange) {
-      console.log(navigateEvent.destination.url);
       setState("default");
       injectScript(ui);
     }
