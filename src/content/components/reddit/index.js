@@ -1,19 +1,13 @@
 import { getElementByAttr, createElement, bookmark } from "../../../helpers/";
+import notionSave from "./ui";
 function reddit() {
-  const saveText = createElement("span", {}, "Notion");
-  const save = createElement(
-    "div",
-    {
-      style:
-        "display:flex;justify-content:center;align-items:center; margin-inline:.6rem;cursor:pointer;",
-    },
-    saveText
-  );
+  const { ui, setState } = notionSave();
 
   navigation.addEventListener("navigate", (navigateEvent) => {
     if (!navigateEvent.hashChange) {
       console.log(navigateEvent.destination.url);
-      saveText.textContent = "Notion";
+      setState("default");
+
       let count = 0;
       const intervalID = setInterval(() => {
         console.log("interval");
@@ -21,7 +15,7 @@ function reddit() {
           "[data-adclicklocation='fl_unknown']",
           (elements) => {
             for (let element of elements) {
-              element.insertAdjacentElement("beforeend", save);
+              element.insertAdjacentElement("beforeend", ui);
             }
           },
           true
@@ -41,7 +35,7 @@ function reddit() {
       (elements) => {
         console.log(elements);
         for (let element of elements) {
-          element.insertAdjacentElement("beforeend", save);
+          element.insertAdjacentElement("beforeend", ui);
         }
         clearInterval(intervalID);
       },
@@ -55,9 +49,9 @@ function reddit() {
     count++;
   }, 500);
 
-  save.addEventListener("click", () => {
+  ui.addEventListener("click", () => {
     const link = window.location.href;
-    saveText.textContent = "Saving...";
+    setState("loading");
     const regex = /\/([^/]+)\/$/;
     const match = regex.exec(link);
     const title = match ? match[1].replace(/_/g, " ") : "";
@@ -70,10 +64,10 @@ function reddit() {
     const save = bookmark(data);
     save
       .then(() => {
-        saveText.textContent = "Saved";
+        setState("success");
       })
       .catch(() => {
-        saveText.textContent = "Error";
+        setState("error");
       });
   });
 }
