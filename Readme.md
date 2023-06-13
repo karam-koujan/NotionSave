@@ -13,7 +13,7 @@ https://twitter.com/karamkaku/status/1666900099333513236
 Clone the project
 
 ```bash
-  git clone https://link-to-project
+  git clone https://github.com/karam-koujan/NotionSave.git
 ```
 
 Go to the project directory
