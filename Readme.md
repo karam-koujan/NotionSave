@@ -40,7 +40,7 @@ npm install
 npm run dev
 ```
 
-## Support
+## Supported Social Media
 
 - Youtube
 - Twitter
