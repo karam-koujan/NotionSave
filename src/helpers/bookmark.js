@@ -1,3 +1,4 @@
+import env from "../config/env";
 function bookmark(data) {
   const token = localStorage.getItem("token");
   const databaseId = localStorage.getItem("databaseId");
@@ -5,7 +6,7 @@ function bookmark(data) {
     databaseId,
     ...data,
   };
-  return fetch("http://localhost:3000/api/bookmark", {
+  return fetch(`${env.hostname}/api/bookmark`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
