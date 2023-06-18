@@ -37,11 +37,13 @@ function youtube() {
     };
     const save = bookmark(data);
     save
-      .then((res) => {
-        setState("success");
-        return res.json();
+      .then((res) => res.json())
+      .then(({ status }) => {
+        if (status === 200) {
+          return setState("success");
+        }
+        setState("error");
       })
-      .then((res) => console.log(res))
       .catch((err) => {
         setState("error");
       });
