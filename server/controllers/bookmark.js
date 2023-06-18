@@ -25,7 +25,7 @@ const bookmarkController = async (req, res) => {
     const response = await fetch(uri, options);
     const resJson = await response.json();
     console.log(resJson);
-    return res.status(201).json({ message: "page is created", error: false });
+    return res.status(201).json(resJson);
   } catch (err) {
     console.log(err);
   }
