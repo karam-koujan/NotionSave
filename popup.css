@@ -16,6 +16,8 @@ body {
   width: fit-content;
   margin: auto;
   font-size: 13px;
+  padding-inline: 1rem;
+  line-height: 20px;
   text-align: center;
 }
 .createDb {
