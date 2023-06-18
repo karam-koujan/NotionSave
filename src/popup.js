@@ -1,13 +1,13 @@
 import createDbBtn from "./popup/components/createDb/createDbBtn";
 import login from "./popup/components/login/login";
 import profile from "./popup/components/profile/profile";
-
+import env from "./config/env";
 window.onload = () => {
   const btn = document.getElementById("createDbBtn");
   const user = JSON.parse(localStorage.getItem("user"));
   console.log("user", user);
   if (user !== null) {
-    fetch("http://localhost:3000/api/dbId", {
+    fetch(`${env.hostname}/api/dbId`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!user && redirectUrlQuery) {
     console.log("dom", user);
-    const redirectUri = `http://localhost:3000/api/auth?code=${redirectUrlQuery.code}&error=${redirectUrlQuery.error}`;
+    const redirectUri = `${env.hostname}/api/auth?code=${redirectUrlQuery.code}&error=${redirectUrlQuery.error}`;
 
     fetch(redirectUri)
       .then((res) => res.json())
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
-        fetch("http://localhost:3000/api/dbId", {
+        fetch(`${env.hostname}/api/dbId`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

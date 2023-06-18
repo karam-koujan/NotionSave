@@ -1,8 +1,10 @@
+import env from "../../../config/env";
+
 function createDb() {
   const btn = document.getElementById("createDbBtn");
   btn.textContent = "Creating...";
   const user = JSON.parse(localStorage.getItem("user"));
-  fetch("http://localhost:3000/api/createDB", {
+  fetch(`${env.hostname}/api/createDB`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
