@@ -62,6 +62,14 @@ document.addEventListener("DOMContentLoaded", () => {
         if (data.error) {
           return;
         }
+        chrome.tabs.query(
+          { active: true, currentWindow: true },
+          function (tabs) {
+            chrome.tabs.sendMessage(tabs[0].id, {
+              accessToken: data.data.access_token,
+            });
+          }
+        );
 
         fetch(`${env.hostname}/api/dbId`, {
           method: "GET",
@@ -75,6 +83,14 @@ document.addEventListener("DOMContentLoaded", () => {
             if (res.error || res.dbId.length === 0) {
               btn.textContent = "Create Notion Database";
             } else {
+              chrome.tabs.query(
+                { active: true, currentWindow: true },
+                function (tabs) {
+                  chrome.tabs.sendMessage(tabs[0].id, {
+                    databaseId: res.dbId[0],
+                  });
+                }
+              );
               btn.textContent = "database is created";
               btn.style.opacity = "0.8";
               btn.disabled = true;
