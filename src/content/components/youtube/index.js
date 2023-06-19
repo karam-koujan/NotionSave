@@ -38,11 +38,11 @@ function youtube() {
     const save = bookmark(data);
     save
       .then((res) => res.json())
-      .then(({ status }) => {
-        if (status === 200) {
-          return setState("success");
+      .then(({ object }) => {
+        if (object === "error") {
+          return setState("error");
         }
-        setState("error");
+        setState("success");
       })
       .catch((err) => {
         setState("error");
