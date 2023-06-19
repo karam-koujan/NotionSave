@@ -1,6 +1,6 @@
 {
   "name": "NotionSave",
-  "description": "When you activate this extention on your browser, in every post/video a save post button will be shown, once you click it, a notion page will be created that contains every post you have saved classified by social media.  This extention will help you save the posts in a neat manner later, without needing to switch from differents tab or forgetting in which social media you have saved ythe post.",
+  "description": "NotionSave, a Google Chrome extension that enables you to effortlessly save posts and videos from various social media platforms into a centralized Notion database.",
   "version": "1.0",
   "manifest_version": 3,
   "action": {
