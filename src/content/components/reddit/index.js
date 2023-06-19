@@ -27,7 +27,11 @@ function reddit() {
 
     const save = bookmark(data);
     save
-      .then(() => {
+      .then((res) => res.json())
+      .then(({ object }) => {
+        if (object === "error") {
+          return setState("error");
+        }
         setState("success");
       })
       .catch(() => {
