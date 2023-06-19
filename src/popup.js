@@ -19,6 +19,7 @@ window.onload = () => {
         if (res.error || res.dbId.length === 0) {
           btn.textContent = "Create Notion Database";
         } else {
+          localStorage.setItem("databaseId", res.dbId[0]);
           btn.textContent = "database is created";
           btn.style.opacity = "0.8";
           btn.disabled = true;
@@ -32,10 +33,14 @@ window.onload = () => {
       });
     }, 500);
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, { accessToken: user.access_token });
+    });
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       chrome.tabs.sendMessage(tabs[0].id, { databaseId });
     });
   }
 };
+
 document.addEventListener("DOMContentLoaded", () => {
   // create database button
   createDbBtn();
