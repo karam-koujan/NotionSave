@@ -33,7 +33,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 
   const token = localStorage.getItem("token");
   const databaseId = localStorage.getItem("databaseId");
-  if (token && databaseId && isScriptInjected) {
+  if (token && databaseId && !isScriptInjected) {
     isScriptInjected = true;
     if (location.hostname.indexOf("youtube") !== -1) {
       console.log("youtube....");
