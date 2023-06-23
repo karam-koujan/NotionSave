@@ -9,7 +9,11 @@ function createDbBtn() {
   const wrapper = document.getElementById("createDb");
   btn.addEventListener("click", createDb);
   wrapper.appendChild(btn);
-  return btn;
+
+  function setState(state) {
+    btn.textContent = state;
+  }
+  return { ui: btn, setState };
 }
 
 export default createDbBtn;
