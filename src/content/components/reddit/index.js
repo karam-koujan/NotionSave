@@ -2,7 +2,7 @@ import { bookmark } from "../../../helpers/";
 import notionSave from "./ui";
 import injectScript from "./injectScript";
 function reddit() {
-  const { ui, setState } = notionSave();
+  const { ui, setState } = notionSave({ content: "notion" });
 
   navigation.addEventListener("navigate", (navigateEvent) => {
     if (!navigateEvent.hashChange) {
@@ -25,18 +25,9 @@ function reddit() {
       metaData: { title },
     };
 
-    const save = bookmark(data);
-    save
-      .then((res) => res.json())
-      .then(({ object }) => {
-        if (object === "error") {
-          return setState("error");
-        }
-        setState("success");
-      })
-      .catch(() => {
-        setState("error");
-      });
+    const onSuccess = () => setState("success");
+    const onError = () => setState("error");
+    bookmark(data, { onSuccess, onError });
   });
 }
 

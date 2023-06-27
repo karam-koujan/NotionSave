@@ -3,7 +3,7 @@ import injectScript from "./injectScript";
 import notionSave from "./ui";
 
 function twitter() {
-  const { ui, setState } = notionSave();
+  const { ui, setState } = notionSave({ content: "save to notion" });
   let tweetText = "";
 
   navigation.addEventListener("navigate", (navigateEvent) => {
@@ -30,18 +30,9 @@ function twitter() {
       type: "twitter",
       metaData: { title: tweetText },
     };
-    const save = bookmark(data);
-    save
-      .then((res) => res.json())
-      .then(({ object }) => {
-        if (object === "error") {
-          return setState("error");
-        }
-        setState("success");
-      })
-      .catch(() => {
-        setState("error");
-      });
+    const onSuccess = () => setState("success");
+    const onError = () => setState("error");
+    bookmark(data, { onError, onSuccess });
   });
 }
 

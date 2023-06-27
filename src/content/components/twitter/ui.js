@@ -1,13 +1,13 @@
 import { createElement } from "../../../helpers";
 
-function notionSave() {
+function notionSave({ content, loading, success, error }) {
   const saveText = createElement(
     "p",
     {
       style:
         "color:#e7e9ea;font-family:TwitterChirp;font-size:15px;font-weight:bold;padding:15px 0 12px 3rem;margin:0;",
     },
-    "Save to Notion"
+    content
   );
   const wrapper = createElement(
     "div",
@@ -17,16 +17,16 @@ function notionSave() {
 
   function setState(state) {
     if (state === "default") {
-      saveText.textContent = "Save to Notion";
+      saveText.textContent = content;
     }
     if (state === "loading") {
-      saveText.textContent = "Saving...";
+      saveText.textContent = loading ? loading : "loading...";
     }
     if (state === "success") {
-      saveText.textContent = "Saved";
+      saveText.textContent = success ? loading : "saved";
     }
     if (state === "error") {
-      saveText.textContent = "Error";
+      saveText.textContent = error ? loading : "error";
     }
   }
   return {

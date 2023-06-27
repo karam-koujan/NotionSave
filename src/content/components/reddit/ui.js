@@ -1,7 +1,7 @@
 import { createElement } from "../../../helpers";
 
-function notionSave() {
-  const saveText = createElement("span", {}, "Notion");
+function notionSave({ content, loading, success, error }) {
+  const saveText = createElement("span", {}, content);
   const save = createElement(
     "div",
     {
@@ -13,16 +13,16 @@ function notionSave() {
 
   function setState(state) {
     if (state === "default") {
-      saveText.textContent = "Notion";
+      saveText.textContent = content;
     }
     if (state === "loading") {
-      saveText.textContent = "Saving...";
+      saveText.textContent = loading ? loading : "loading...";
     }
     if (state === "success") {
-      saveText.textContent = "Saved";
+      saveText.textContent = success ? loading : "saved";
     }
     if (state === "error") {
-      saveText.textContent = "Error";
+      saveText.textContent = error ? loading : "error";
     }
   }
 
