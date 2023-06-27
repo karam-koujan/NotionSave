@@ -1,6 +1,7 @@
 import { createElement, notionSaveBtnState } from "../../../helpers";
 
-function notionSave({ content, loading, success, error }) {
+function notionSave() {
+  const content = "notion";
   const saveText = createElement("span", {}, content);
   const save = createElement(
     "div",
@@ -12,7 +13,7 @@ function notionSave({ content, loading, success, error }) {
   );
 
   const setState = notionSaveBtnState(youtubeSaveBtnTxt, {
-    content: "notion",
+    content,
   });
 
   return {

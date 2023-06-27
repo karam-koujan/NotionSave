@@ -1,7 +1,7 @@
 import { bookmark } from "../../../helpers/";
 import { getTheVideoTitle } from "./helpers";
 import injectScript from "./injectScript";
-import notionSave from "./ui";
+import notionSave from "./button";
 
 function youtube() {
   const { ui, setState } = notionSave();

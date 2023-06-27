@@ -1,5 +1,7 @@
 import { createElement, notionSaveBtnState } from "../../../helpers";
 function notionSave() {
+  const content = "notion";
+
   const youtubeSaveBtnTxt = createElement(
     "span",
     {
@@ -20,7 +22,7 @@ function notionSave() {
   );
 
   const setState = notionSaveBtnState(youtubeSaveBtnTxt, {
-    content: "notion",
+    content,
   });
   return {
     ui: youtubeSaveBtn,

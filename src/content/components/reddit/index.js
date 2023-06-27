@@ -1,5 +1,5 @@
 import { bookmark } from "../../../helpers/";
-import notionSave from "./ui";
+import notionSave from "./button";
 import injectScript from "./injectScript";
 function reddit() {
   const { ui, setState } = notionSave();

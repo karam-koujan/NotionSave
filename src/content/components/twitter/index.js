@@ -1,6 +1,6 @@
 import { getElementByAttr, bookmark } from "../../../helpers/";
 import injectScript from "./injectScript";
-import notionSave from "./ui";
+import notionSave from "./button";
 
 function twitter() {
   const { ui, setState } = notionSave();
