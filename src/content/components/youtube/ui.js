@@ -1,13 +1,13 @@
 import { createElement } from "../../../helpers";
 
-function notionSave() {
+function notionSave({ content, loading, success, error }) {
   const youtubeSaveBtnTxt = createElement(
     "span",
     {
       style:
         "color:#0f0f0f;font-size:14px;font-family:Roboto,Arial,sans-serif;font-weight:bold;text-transform:capitalize;",
     },
-    "notion"
+    content
   );
   const youtubeSaveBtn = createElement(
     "div",
@@ -22,16 +22,16 @@ function notionSave() {
 
   function setState(state) {
     if (state === "default") {
-      youtubeSaveBtnTxt.textContent = "Notion";
+      youtubeSaveBtnTxt.textContent = content;
     }
     if (state === "loading") {
-      youtubeSaveBtnTxt.textContent = "Saving...";
+      youtubeSaveBtnTxt.textContent = loading ? loading : "loading";
     }
     if (state === "success") {
-      youtubeSaveBtnTxt.textContent = "Saved";
+      youtubeSaveBtnTxt.textContent = success ? loading : "saved";
     }
     if (state === "error") {
-      youtubeSaveBtnTxt.textContent = "Error";
+      youtubeSaveBtnTxt.textContent = error ? loading : "error";
     }
   }
   return {

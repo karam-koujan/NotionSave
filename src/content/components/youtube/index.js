@@ -4,7 +4,7 @@ import injectScript from "./injectScript";
 import notionSave from "./ui";
 
 function youtube() {
-  const { ui, setState } = notionSave();
+  const { ui, setState } = notionSave({ content: "notion" });
 
   injectScript(ui);
 
@@ -35,18 +35,9 @@ function youtube() {
       type: "youtube",
       metaData: { title: youtubeVidTitle },
     };
-    const save = bookmark(data);
-    save
-      .then((res) => res.json())
-      .then(({ object }) => {
-        if (object === "error") {
-          return setState("error");
-        }
-        setState("success");
-      })
-      .catch((err) => {
-        setState("error");
-      });
+    const onSuccess = () => setState("success");
+    const onError = () => setState("error");
+    bookmark(data, { onSuccess, onError });
   });
 }
 
