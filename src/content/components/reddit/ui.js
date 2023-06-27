@@ -12,10 +12,7 @@ function notionSave({ content, loading, success, error }) {
   );
 
   const setState = notionSaveBtnState(youtubeSaveBtnTxt, {
-    content,
-    loading,
-    success,
-    error,
+    content: "notion",
   });
 
   return {

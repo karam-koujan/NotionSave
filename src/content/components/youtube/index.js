@@ -4,7 +4,7 @@ import injectScript from "./injectScript";
 import notionSave from "./ui";
 
 function youtube() {
-  const { ui, setState } = notionSave({ content: "notion" });
+  const { ui, setState } = notionSave();
 
   injectScript(ui);
 

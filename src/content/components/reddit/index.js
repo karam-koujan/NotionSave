@@ -2,7 +2,7 @@ import { bookmark } from "../../../helpers/";
 import notionSave from "./ui";
 import injectScript from "./injectScript";
 function reddit() {
-  const { ui, setState } = notionSave({ content: "notion" });
+  const { ui, setState } = notionSave();
 
   navigation.addEventListener("navigate", (navigateEvent) => {
     if (!navigateEvent.hashChange) {

@@ -3,7 +3,7 @@ import injectScript from "./injectScript";
 import notionSave from "./ui";
 
 function twitter() {
-  const { ui, setState } = notionSave({ content: "save to notion" });
+  const { ui, setState } = notionSave();
   let tweetText = "";
 
   navigation.addEventListener("navigate", (navigateEvent) => {
