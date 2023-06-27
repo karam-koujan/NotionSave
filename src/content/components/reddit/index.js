@@ -25,7 +25,7 @@ function reddit() {
       metaData: { title },
     };
 
-    const onSuccess = () => setState("success");
+    const onSuccess = () => setState("saved");
     const onError = () => setState("error");
     bookmark(data, { onSuccess, onError });
   });

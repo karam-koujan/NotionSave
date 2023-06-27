@@ -1,4 +1,4 @@
-import { createElement, notionSaveBtnState } from "../../../helpers";
+import { createElement } from "../../../helpers";
 function notionSave() {
   const content = "save to notion";
   const saveText = createElement(
@@ -15,9 +15,10 @@ function notionSave() {
     saveText
   );
 
-  const setState = notionSaveBtnState(youtubeSaveBtnTxt, {
-    content,
-  });
+  const setState = (text) => {
+    saveText.textContent = text;
+  };
+
   return {
     ui: wrapper,
     setState,

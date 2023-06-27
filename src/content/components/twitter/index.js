@@ -30,7 +30,7 @@ function twitter() {
       type: "twitter",
       metaData: { title: tweetText },
     };
-    const onSuccess = () => setState("success");
+    const onSuccess = () => setState("saved");
     const onError = () => setState("error");
     bookmark(data, { onError, onSuccess });
   });
