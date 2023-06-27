@@ -1,4 +1,4 @@
-import { createElement } from "../../../helpers";
+import { createElement, notionSaveBtnState } from "../../../helpers";
 
 function notionSave({ content, loading, success, error }) {
   const saveText = createElement("span", {}, content);
@@ -11,20 +11,12 @@ function notionSave({ content, loading, success, error }) {
     saveText
   );
 
-  function setState(state) {
-    if (state === "default") {
-      saveText.textContent = content;
-    }
-    if (state === "loading") {
-      saveText.textContent = loading ? loading : "loading...";
-    }
-    if (state === "success") {
-      saveText.textContent = success ? loading : "saved";
-    }
-    if (state === "error") {
-      saveText.textContent = error ? loading : "error";
-    }
-  }
+  const setState = notionSaveBtnState(youtubeSaveBtnTxt, {
+    content,
+    loading,
+    success,
+    error,
+  });
 
   return {
     ui: save,

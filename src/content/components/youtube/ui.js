@@ -1,5 +1,4 @@
-import { createElement } from "../../../helpers";
-import notionSaveBtnState from "../../../helpers/notionSaveBtnState";
+import { createElement, notionSaveBtnState } from "../../../helpers";
 function notionSave({ content, loading, success, error }) {
   const youtubeSaveBtnTxt = createElement(
     "span",
