@@ -3,12 +3,12 @@ import injectScript from "./injectScript";
 import notionSave from "./button";
 
 function twitter() {
-  const { ui, setState } = notionSave();
+  const { ui, setText } = notionSave();
   let tweetText = "";
 
   navigation.addEventListener("navigate", (navigateEvent) => {
     if (!navigateEvent.hashChange) {
-      setState("default");
+      setText("save to notion");
       const intervalId = setInterval(() => {
         injectScript(ui);
         clearInterval(intervalId);
@@ -24,14 +24,14 @@ function twitter() {
       tweetText = tweetText.length < 10 ? tweetText : tweetText.slice(0, 10);
     });
     const link = window.location.href;
-    setState("loading");
+    setText("loading...");
     const data = {
       link,
       type: "twitter",
       metaData: { title: tweetText },
     };
-    const onSuccess = () => setState("saved");
-    const onError = () => setState("error");
+    const onSuccess = () => setText("saved");
+    const onError = () => setText("error");
     bookmark(data, { onError, onSuccess });
   });
 }

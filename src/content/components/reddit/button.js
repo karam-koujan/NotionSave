@@ -1,4 +1,4 @@
-import { createElement } from "../../../helpers";
+import { componentsSetters, createElement } from "../../../helpers";
 
 function notionSave() {
   const content = "notion";
@@ -12,13 +12,9 @@ function notionSave() {
     saveText
   );
 
-  const setState = (text) => {
-    saveText.textContent = text;
-  };
-
   return {
     ui: save,
-    setState,
+    ...componentsSetters,
   };
 }
 

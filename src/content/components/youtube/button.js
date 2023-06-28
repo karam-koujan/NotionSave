@@ -1,4 +1,4 @@
-import { createElement } from "../../../helpers";
+import { createElement, componentsSetters } from "../../../helpers";
 function notionSave() {
   const content = "notion";
 
@@ -21,13 +21,9 @@ function notionSave() {
     youtubeSaveBtnTxt
   );
 
-  const setState = (text) => {
-    saveText.textContent = text;
-  };
-
   return {
     ui: youtubeSaveBtn,
-    setState,
+    ...componentsSetters,
   };
 }
 

@@ -2,11 +2,11 @@ import { bookmark } from "../../../helpers/";
 import notionSave from "./button";
 import injectScript from "./injectScript";
 function reddit() {
-  const { ui, setState } = notionSave();
+  const { ui, setText } = notionSave();
 
   navigation.addEventListener("navigate", (navigateEvent) => {
     if (!navigateEvent.hashChange) {
-      setState("default");
+      setText("notion");
       injectScript(ui);
     }
   });
@@ -15,7 +15,7 @@ function reddit() {
 
   ui.addEventListener("click", () => {
     const link = window.location.href;
-    setState("loading");
+    setText("loading");
     const regex = /\/([^/]+)\/$/;
     const match = regex.exec(link);
     const title = match ? match[1].replace(/_/g, " ") : "";
@@ -25,8 +25,8 @@ function reddit() {
       metaData: { title },
     };
 
-    const onSuccess = () => setState("saved");
-    const onError = () => setState("error");
+    const onSuccess = () => setText("saved");
+    const onError = () => setText("error");
     bookmark(data, { onSuccess, onError });
   });
 }

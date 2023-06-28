@@ -1,8 +1,8 @@
-import createElement from "../../../helpers/createElement";
+import { componentsSetters, createElement } from "../../../helpers";
 import createDb from "./createDb";
 function createDbBtn() {
   const btn = createElement(
-    "btn",
+    "button",
     { class: "createDb", id: "createDbBtn" },
     "loading"
   );
@@ -10,10 +10,7 @@ function createDbBtn() {
   btn.addEventListener("click", createDb);
   wrapper.appendChild(btn);
 
-  function setState(state) {
-    btn.textContent = state;
-  }
-  return { ui: btn, setState };
+  return { ui: btn, ...componentsSetters };
 }
 
 export default createDbBtn;

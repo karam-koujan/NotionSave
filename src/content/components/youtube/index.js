@@ -4,7 +4,7 @@ import injectScript from "./injectScript";
 import notionSave from "./button";
 
 function youtube() {
-  const { ui, setState } = notionSave();
+  const { ui, setText } = notionSave();
 
   injectScript(ui);
 
@@ -12,7 +12,7 @@ function youtube() {
 
   navigation.addEventListener("navigate", (navigateEvent) => {
     if (!navigateEvent.hashChange) {
-      setState("default");
+      setText("notion");
       console.log("change", youtubeVidTitle);
       getTheVideoTitle("#above-the-fold", (title) => {
         console.log(title);
@@ -29,14 +29,14 @@ function youtube() {
 
   ui.addEventListener("click", () => {
     const link = window.location.href;
-    setState("loading");
+    setText("loading...");
     const data = {
       link,
       type: "youtube",
       metaData: { title: youtubeVidTitle },
     };
-    const onSuccess = () => setState("saved");
-    const onError = () => setState("error");
+    const onSuccess = () => setText("saved");
+    const onError = () => setText("error");
     bookmark(data, { onSuccess, onError });
   });
 }

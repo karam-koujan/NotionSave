@@ -1,11 +1,10 @@
-import createDbBtn from "./popup/components/createDb/createDbBtn";
+import createDbBtn from "./popup/components/createDb/button";
 import login from "./popup/components/login/login";
 import profile from "./popup/components/profile/profile";
 import env from "./config/env";
 
 document.addEventListener("DOMContentLoaded", () => {
-  createDbBtn();
-  const btn = document.getElementById("createDbBtn");
+  const createDb = createDbBtn();
   const redirectUrlQuery = JSON.parse(localStorage.getItem("redirectUrlCode"));
 
   let user =
@@ -13,7 +12,12 @@ document.addEventListener("DOMContentLoaded", () => {
       ? JSON.parse(localStorage.getItem("user"))
       : undefined;
 
-  if (user) {
+  if (!user) {
+    // create login button
+    login();
+    createDb.setStyle("display", "none");
+  } else {
+    profile(user);
     fetch(`${env.hostname}/api/dbId`, {
       method: "GET",
       headers: {
@@ -25,12 +29,12 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((res) => {
         console.log(res);
         if (res.error || res.dbId.length === 0) {
-          btn.textContent = "Create Notion Database";
+          createDb.setText("Create Notion Database");
         } else {
           localStorage.setItem("databaseId", res.dbId[0]);
-          btn.textContent = "database is created";
-          btn.style.opacity = "0.8";
-          btn.disabled = true;
+          createDb.setText("database is created");
+          createDb.setStyle("opacity", "0.8");
+          createDb.setAttr("disabled", true);
           setTimeout(() => {
             chrome.tabs.query(
               { active: true, currentWindow: true },
@@ -82,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
           .then((res) => {
             console.log(res);
             if (res.error || res.dbId.length === 0) {
-              btn.textContent = "Create Notion Database";
+              createDb.setText("Create Notion Database");
             } else {
               setTimeout(() => {
                 chrome.tabs.query(
@@ -94,9 +98,9 @@ document.addEventListener("DOMContentLoaded", () => {
                   }
                 );
               }, 500);
-              btn.textContent = "database is created";
-              btn.style.opacity = "0.8";
-              btn.disabled = true;
+              createDb.setText("database is created");
+              createDb.setStyle("opacity", "0.8");
+              createDb.setAttr("disabled", true);
             }
           });
         const loginBtn = document.getElementById("login");
@@ -106,21 +110,11 @@ document.addEventListener("DOMContentLoaded", () => {
           loginBtn.style.display = "none";
         }
         // create profile elements
-        btn.style.display = "block";
+        createDb.setStyle("display", "block");
+
         if (data.error) {
           return console.log("error");
         }
       });
-  }
-  user =
-    localStorage.getItem("user") !== "undefined"
-      ? JSON.parse(localStorage.getItem("user"))
-      : undefined;
-  if (!user) {
-    // create login button
-    login();
-    btn.style.display = "none";
-  } else {
-    profile(user);
   }
 });
