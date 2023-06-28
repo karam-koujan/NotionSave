@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.getItem("user") !== "undefined"
       ? JSON.parse(localStorage.getItem("user"))
       : undefined;
+
   if (user) {
     fetch(`${env.hostname}/api/dbId`, {
       method: "GET",
@@ -30,6 +31,16 @@ document.addEventListener("DOMContentLoaded", () => {
           btn.textContent = "database is created";
           btn.style.opacity = "0.8";
           btn.disabled = true;
+          setTimeout(() => {
+            chrome.tabs.query(
+              { active: true, currentWindow: true },
+              function (tabs) {
+                chrome.tabs.sendMessage(tabs[0].id, {
+                  databaseId: res.dbId[0],
+                });
+              }
+            );
+          }, 500);
         }
       });
 
