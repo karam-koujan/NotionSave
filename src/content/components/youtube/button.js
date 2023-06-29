@@ -20,10 +20,10 @@ function notionSave() {
     },
     youtubeSaveBtnTxt
   );
-
+  const componentSettersMethods = componentsSetters(youtubeSaveBtnTxt);
   return {
     ui: youtubeSaveBtn,
-    ...componentsSetters,
+    ...componentSettersMethods,
   };
 }
 

@@ -9,8 +9,9 @@ function createDbBtn() {
   const wrapper = document.getElementById("createDb");
   btn.addEventListener("click", createDb);
   wrapper.appendChild(btn);
+  const componentSettersMethods = componentsSetters(btn);
 
-  return { ui: btn, ...componentsSetters };
+  return { ui: btn, ...componentSettersMethods };
 }
 
 export default createDbBtn;

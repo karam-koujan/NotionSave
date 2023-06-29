@@ -1,16 +1,18 @@
-function setText(state) {
-  btn.textContent = state;
-}
-function setStyle(attr, val) {
-  btn.style[attr] = val;
-}
-function setAttr(attr, val) {
-  btn[attr] = val;
+function componentsSetters(htmlElement) {
+  function setText(state) {
+    htmlElement.textContent = state;
+  }
+  function setStyle(attr, val) {
+    htmlElement.style[attr] = val;
+  }
+  function setAttr(attr, val) {
+    htmlElement[attr] = val;
+  }
+  return {
+    setAttr,
+    setStyle,
+    setText,
+  };
 }
 
-const componentsSetters = {
-  setAttr,
-  setStyle,
-  setAttr,
-};
 export default componentsSetters;

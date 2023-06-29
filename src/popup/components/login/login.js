@@ -1,5 +1,5 @@
 import auth from "./auth";
-import createElement from "../../../helpers/createElement";
+import { createElement, componentsSetters } from "../../../helpers/";
 function login() {
   const loginBtn = createElement(
     "button",
@@ -11,7 +11,8 @@ function login() {
   loginBtn.addEventListener("click", auth);
 
   loginWrapper.appendChild(loginBtn);
-  return loginBtn;
+  const componentSettersMethods = componentsSetters(loginBtn);
+  return { ui: loginBtn, ...componentSettersMethods };
 }
 
 export default login;

@@ -6,7 +6,7 @@ import env from "./config/env";
 document.addEventListener("DOMContentLoaded", () => {
   const createDb = createDbBtn();
   const redirectUrlQuery = JSON.parse(localStorage.getItem("redirectUrlCode"));
-
+  let loginBtn;
   let user =
     localStorage.getItem("user") !== "undefined"
       ? JSON.parse(localStorage.getItem("user"))
@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!user) {
     // create login button
-    login();
+    loginBtn = login();
     createDb.setStyle("display", "none");
   } else {
     profile(user);
@@ -103,11 +103,10 @@ document.addEventListener("DOMContentLoaded", () => {
               createDb.setAttr("disabled", true);
             }
           });
-        const loginBtn = document.getElementById("login");
         localStorage.setItem("user", JSON.stringify(data.data));
         profile(data.data);
         if (loginBtn) {
-          loginBtn.style.display = "none";
+          loginBtn.setStyle("display", "none");
         }
         // create profile elements
         createDb.setStyle("display", "block");

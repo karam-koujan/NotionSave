@@ -14,10 +14,11 @@ function notionSave() {
     { id: "notion", style: "cursor:pointer" },
     saveText
   );
+  const componentSettersMethods = componentsSetters(saveText);
 
   return {
     ui: wrapper,
-    ...componentsSetters,
+    ...componentSettersMethods,
   };
 }
 export default notionSave;

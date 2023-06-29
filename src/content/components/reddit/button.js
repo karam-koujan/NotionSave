@@ -11,10 +11,11 @@ function notionSave() {
     },
     saveText
   );
+  const componentSettersMethods = componentsSetters(saveText);
 
   return {
     ui: save,
-    ...componentsSetters,
+    ...componentSettersMethods,
   };
 }
 
