@@ -1,5 +1,6 @@
 import profileImg from "./profileImg";
 import profileName from "./profileName";
+import { componentsSetters } from "../../../helpers";
 function profile({ owner }) {
   const parent = document.getElementById("profile");
   const imgContainer = profileImg({
@@ -7,8 +8,9 @@ function profile({ owner }) {
     alt: owner.user.name,
   });
   const nameTag = profileName({ name: owner.user.name });
-  parent.appendChild(imgContainer);
-  parent.appendChild(nameTag);
-  return parent;
+  parent.appendChild(imgContainer.ui);
+  parent.appendChild(nameTag.ui);
+  const componentsSettersMethods = componentsSetters(nameTag);
+  return { ui: parent, ...componentsSettersMethods };
 }
 export default profile;

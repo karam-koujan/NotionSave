@@ -1,4 +1,4 @@
-import createElement from "../../../helpers/createElement";
+import { createElement, componentsSetters } from "../../../helpers/";
 
 function profileImg(props) {
   const img = createElement(
@@ -18,7 +18,8 @@ function profileImg(props) {
     },
     img
   );
+  const componentsSettersMethods = componentsSetters(img);
 
-  return imgContainer;
+  return { ui: imgContainer, ...componentsSettersMethods };
 }
 export default profileImg;

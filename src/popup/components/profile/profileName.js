@@ -1,4 +1,4 @@
-import createElement from "../../../helpers/createElement";
+import { createElement, componentsSetters } from "../../../helpers/";
 
 function profileName(props) {
   const nameTag = createElement(
@@ -9,7 +9,8 @@ function profileName(props) {
     },
     props.name
   );
-  return nameTag;
+  const componentsSettersMethods = componentsSetters(nameTag);
+  return { ui: nameTag, ...componentsSettersMethods };
 }
 
 export default profileName;
