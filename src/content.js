@@ -23,14 +23,11 @@ if (token && databaseId) {
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   if (message.accessToken) {
-    const accessToken = message.accessToken;
-    localStorage.setItem("token", accessToken);
+    localStorage.setItem("token", message.accessToken);
   }
   if (message.databaseId) {
-    const databaseId = message.databaseId;
-    localStorage.setItem("databaseId", databaseId);
+    localStorage.setItem("databaseId", message.databaseId);
   }
-
   const token = localStorage.getItem("token");
   const databaseId = localStorage.getItem("databaseId");
   if (token && databaseId && !isScriptInjected) {
