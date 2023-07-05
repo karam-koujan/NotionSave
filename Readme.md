@@ -26,6 +26,26 @@ Install dependencies
 
 ```bash
   npm install
+```
+
+Configuration
+
+```bash
+  cd src
+  mkdir config
+  touch env.js
+```
+
+```js
+const env = {
+  hostname: "http://localhost:3000",
+};
+export default env;
+```
+
+Build
+
+```bash
   npm run build
 ```
 
