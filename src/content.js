@@ -1,24 +1,25 @@
 import { youtube, twitter, reddit } from "./content/components";
 
+function injectScript({ hostname, script }) {
+  if (location.hostname.indexOf(hostname) !== -1) {
+    console.log(hostname);
+    script();
+  }
+}
+
 let isScriptInjected = false;
 const token = localStorage.getItem("token");
 const databaseId = localStorage.getItem("databaseId");
+const socialMediaObj = { youtube, reddit, twitter };
 
 if (token && databaseId) {
   isScriptInjected = true;
-  if (location.hostname.indexOf("youtube") !== -1) {
-    console.log("youtube....");
-    youtube();
-  }
-
-  if (location.hostname.indexOf("twitter") !== -1) {
-    twitter();
-  }
-
-  if (location.hostname.indexOf("reddit") !== -1) {
-    console.log("working!!!");
-    reddit();
-  }
+  Object.keys(socialMediaObj).forEach((socialMedia) => {
+    injectScript({
+      hostname: socialMedia,
+      script: socialMediaObj[socialMedia],
+    });
+  });
 }
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
@@ -32,18 +33,11 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   const databaseId = localStorage.getItem("databaseId");
   if (token && databaseId && !isScriptInjected) {
     isScriptInjected = true;
-    if (location.hostname.indexOf("youtube") !== -1) {
-      console.log("youtube....");
-      youtube();
-    }
-
-    if (location.hostname.indexOf("twitter") !== -1) {
-      twitter();
-    }
-
-    if (location.hostname.indexOf("reddit") !== -1) {
-      console.log("working!!!");
-      reddit();
-    }
+    Object.keys(socialMediaObj).forEach((socialMedia) => {
+      injectScript({
+        hostname: socialMedia,
+        script: socialMediaObj[socialMedia],
+      });
+    });
   }
 });
